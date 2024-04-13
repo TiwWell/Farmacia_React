@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useState } from "react";
-import ClientForm from './ClientForm.js';
 
 const Table = ({clients }) => {
 
@@ -80,7 +79,6 @@ const Table = ({clients }) => {
                                         }
                                     </td>
                                 </tr>
-                                {/* <ClientForm open={open} /> */}
                             </>
                         );
                     })}
