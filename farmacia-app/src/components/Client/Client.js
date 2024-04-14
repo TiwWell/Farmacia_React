@@ -1,13 +1,14 @@
 import axios from "axios";
 import React, { useState } from "react";
+import Modal from "react-modal";
+import './Client.css';
 
-const Table = ({clients }) => {
+const Client = ({ clients }) => {
 
     const [client, setClient] = useState(null);
-    const [open, setOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const [listaClientes, setListaClientes] = React.useState(null);
+    const [listaClientes, setListaClientes] = useState(null);
 
     React.useEffect(() => {
         axios.get("http://localhost:8080/api/lista-cliente").then((response) => {
@@ -25,16 +26,10 @@ const Table = ({clients }) => {
             window.location.reload();
         })
     }
-    function handleForm() {
-        setOpen(true);
-    }
-
 
     const openModal = (client) => {
         setClient(client);
         setIsModalOpen(true);
-        console.log(client);
-        console.log(isModalOpen);
     };
 
     const closeModal = () => {
@@ -57,55 +52,71 @@ const Table = ({clients }) => {
                     </tr>
                     {listaClientes.map((client) => {
                         return (
-                            <>
-                                <tr key={client.id}>
-                                    <td widht={350}>
-                                        <h4>{client.nome}</h4>
-                                    </td>
-                                    <td width={300}>
-                                        <h4>{client.cpf_cnpj}</h4>
-                                    </td>
-                                    <td width={250}>
-                                        <h4>{client.telefone}</h4>
-                                    </td>
-                                    <td width={350}>
-                                        <h4>{client.endereco}</h4>
-                                    </td>
-                                    <td width={200}>
-                                        <button type="button" className="btn btn-primary me-1" onClick={() => openModal(client)}>Alterar</button>
-                                        {client.desativado == 0 ?
-                                            <button type="submit" className="btn btn-danger" onClick={() => handleDelete(client.id)}>Desativar</button> :
-                                            <button type="submit" className="btn btn-secondary">Desativado</button>
-                                        }
-                                    </td>
-                                </tr>
-                            </>
+                            <tr key={client.id}>
+                                <td className="nome">
+                                    <h4>{client.nome}</h4>
+                                </td>
+                                <td className="nome" width={300}>
+                                    <h4>{client.cpf_cnpj}</h4>
+                                </td>
+                                <td className="nome" width={250}>
+                                    <h4>{client.telefone}</h4>
+                                </td>
+                                <td className="nome" width={350}>
+                                    <h4>{client.endereco}</h4>
+                                </td>
+                                <td className="nome" width={200}>
+                                    <button type="button" className="btn btn-primary me-1" onClick={() => openModal(client)}>Alterar</button>
+                                    {client.desativado === 0 ?
+                                        <button type="submit" className="btn btn-danger" onClick={() => handleDelete(client.id)}>Desativar</button> :
+                                        <button type="submit" className="btn btn-secondary">Desativado</button>
+                                    }
+                                </td>
+                            </tr>
                         );
                     })}
                 </thead>
             </table>
             {isModalOpen && (
-                <div className="modal">
+                <Modal
+                    isOpen={isModalOpen}
+                    onRequestClose={closeModal}
+                    contentLabel="Alterar Cliente"
+                    className="custom-modal  modal-dialog"
+                >
                     <div className="modal-content">
-                        <span className="close" onClick={closeModal}>
-                            &times;
-                        </span>
-                        <h2>Alterar Cliente</h2>
-                        {/* Aqui você renderiza os campos de edição com base no cliente selecionado */}
+                        <button type="button" className="btn-close" aria-label="Fechar" onClick={closeModal}/>
+                        <h2 className='text-center'>Alterar Cliente</h2>
                         {client && (
                             <form>
-                                <label>
-                                    Nome:
-                                    <input type="text" defaultValue={client.name} />
-                                </label>
-                                <button type="submit">Salvar Alterações</button>
+                                <div className="form-group">
+                                    <div class="col-md-6 mb-3">
+                                        <label>Nome</label>
+                                        <input type="text" class="form-control" defaultValue={client.nome} placeholder="Nome completo" />
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label>CPF ou CNPJ</label>
+                                        <input type="text" class="form-control" defaultValue={client.cpf_cnpj} />
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label>Telefone</label>
+                                        <input type="text" class="form-control" defaultValue={client.telefone} />
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label>Endereço</label>
+                                        <input type="text" class="form-control" defaultValue={client.endereco} />
+                                    </div>
+                                    <div className='text-center'>
+                                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                                    </div>
+                                </div>
                             </form>
                         )}
                     </div>
-                </div>
+                </Modal>
             )}
         </>
     );
 };
 
-export default Table;
+export default Client;

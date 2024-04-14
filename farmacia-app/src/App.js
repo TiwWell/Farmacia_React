@@ -1,13 +1,13 @@
 
 import './App.css';
 import Navbar from './components/Nav.js';
-import Table from './components/Client/Client.js';
+import Client from './components/Client/Client.js';
 
 function App() {
   return (
     <div>
       <Navbar/>
-      <Table/>
+      <Client/>
     </div>
   );
 }
