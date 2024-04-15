@@ -82,9 +82,9 @@ const Client = ({ clients }) => {
                     isOpen={isModalOpen}
                     onRequestClose={closeModal}
                     contentLabel="Alterar Cliente"
-                    className="custom-modal  modal-dialog"
+                    className="custom-modal"
                 >
-                    <div className="modal-content">
+                    <div>
                         <button type="button" className="btn-close" aria-label="Fechar" onClick={closeModal}/>
                         <h2 className='text-center'>Alterar Cliente</h2>
                         {client && (
@@ -94,15 +94,15 @@ const Client = ({ clients }) => {
                                         <label>Nome</label>
                                         <input type="text" class="form-control" defaultValue={client.nome} placeholder="Nome completo" />
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <div class="form-group col-md-4 mb-3">
                                         <label>CPF ou CNPJ</label>
                                         <input type="text" class="form-control" defaultValue={client.cpf_cnpj} />
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <div class="form-group col-md-4 mb-3">
                                         <label>Telefone</label>
                                         <input type="text" class="form-control" defaultValue={client.telefone} />
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="form-group col-md-6 mb-3">
                                         <label>Endereço</label>
                                         <input type="text" class="form-control" defaultValue={client.endereco} />
                                     </div>

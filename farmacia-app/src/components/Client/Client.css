@@ -1,12 +1,30 @@
 .custom-modal {
-    position: static;
-    border: 2px solid rgb(204, 204, 204);
-    background: rgb(255, 255, 255);
-    overflow: hidden;
-    border-radius: 5px;
-    outline: none;
-    padding: 1px;
+    width: 50%;
+    background-color: #fff; /* Defina a cor de fundo desejada */
+    border: 2px solid rgba(0, 0, 0, 0.2); /* Adicione a borda desejada */
+    border-radius: 7px; /* Adicione o raio de borda desejado */
+    padding: 20px;
+    margin: auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
+
+.custom-modal form {
+    margin-bottom: 20px; /* Adicione margem inferior para os formulários dentro da modal */
+}
+
+.custom-modal label {
+    display: block; /* Para que cada label apareça em uma linha separada */
+    margin-bottom: 10px; /* Adicione margem inferior para separar os labels */
+}
+
+.custom-modal input {
+    width: 100%; /* Define a largura total para os inputs */
+    margin-bottom: 10px; /* Adicione margem inferior para separar os inputs */
+}
+
 
 .btn-close {
     position: absolute;
@@ -22,4 +40,3 @@
 .btn-close:hover {
     opacity: 1;
 }
-
