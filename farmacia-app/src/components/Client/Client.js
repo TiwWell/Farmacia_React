@@ -1,28 +1,41 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
+import { toast } from 'react-hot-toast';
 import './Client.css';
 
-const Client = ({ clients }) => {
-
+const Client = () => {
     const [client, setClient] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
     const [listaClientes, setListaClientes] = useState(null);
 
-    React.useEffect(() => {
-        axios.get("http://localhost:8080/api/lista-cliente").then((response) => {
-            setListaClientes(response.data);
+    useEffect(() => {
+        fetchData();
+    });
 
-            console.log(response);
-        });
-    }, []);
+    const fetchData = () => {
+        try {
+            axios.get("http://localhost:8080/api/lista-cliente")
+                .then((response) => {
+                    console.log(response);
+                    setListaClientes(response.data);
+                })
+                .catch((error) => {
+                    console.error("Erro ao obter clientes:", error);
+                    toast.error("Erro no carregamento da lista de clientes. Verificar se a API está disponível.");
+                });
+
+        } catch (error) {
+            // Trate erros durante a configuração da solicitação
+            console.error("Erro ao configurar a solicitação:", error);
+            toast.error("Erro no carregamento da lista de clientes.");
+        }
+    };
 
 
     function handleDelete(clientId) {
         axios.get(`http://localhost:8080/api/desativar-cliente/${clientId}`).then((response) => {
             alert("Desativado com sucesso")
-
             window.location.reload();
         })
     }
@@ -85,7 +98,7 @@ const Client = ({ clients }) => {
                     className="custom-modal"
                 >
                     <div>
-                        <button type="button" className="btn-close" aria-label="Fechar" onClick={closeModal}/>
+                        <button type="button" className="btn-close" aria-label="Fechar" onClick={closeModal} />
                         <h2 className='text-center'>Alterar Cliente</h2>
                         {client && (
                             <form>
