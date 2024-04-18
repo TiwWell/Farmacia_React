@@ -10,10 +10,10 @@ const Client = () => {
     const [listaClientes, setListaClientes] = useState(null);
 
     useEffect(() => {
-        fetchData();
-    });
+        handleSelect();
+    }, []);
 
-    const fetchData = () => {
+    const handleSelect = () => {
         try {
             axios.get("http://localhost:8080/api/lista-cliente")
                 .then((response) => {
@@ -22,32 +22,64 @@ const Client = () => {
                 })
                 .catch((error) => {
                     console.error("Erro ao obter clientes:", error);
-                    toast.error("Erro no carregamento da lista de clientes. Verificar se a API está disponível.");
+                    toast.error("Erro no carregamento da lista de clientes. Verificar se a API está disponível.", { position: 'botton-right' });
                 });
 
         } catch (error) {
             // Trate erros durante a configuração da solicitação
             console.error("Erro ao configurar a solicitação:", error);
-            toast.error("Erro no carregamento da lista de clientes.");
+            toast.error("Erro no carregamento da lista de clientes. Verificar se a API está disponível.", { position: 'botton-right' });
         }
     };
 
 
     function handleDelete(clientId) {
         axios.get(`http://localhost:8080/api/desativar-cliente/${clientId}`).then((response) => {
-            alert("Desativado com sucesso")
+            toast.success("Desativado com sucesso")
             window.location.reload();
         })
     }
 
     const openModal = (client) => {
-        setClient(client);
         setIsModalOpen(true);
+        console.log('Abriu modal');
+        setClient(client);
+    }
+
+    function handleUpdate(client) {
+        console.log("Modal aberta");
+        try {
+            // Montar o objeto cliente com os dados atualizados do estado do componente
+            const clienteAtualizado = {
+                id: client.id,
+                nome: client.nome,
+                cpf_cnpj: client.cpf_cnpj,
+                telefone: client.telefone,
+                endereco: client.endereco,
+                desativado: client.desativado
+            };
+            // Enviar uma requisição POST para a API com os dados do cliente atualizados
+            axios.put(`http://localhost:8080/api/atualizar-cliente`, clienteAtualizado).then((response) => {
+                toast.success("Cliente atualizado com sucesso!");
+                console.log("Cliente atualizado", client);
+            })
+            .catch((error) => {
+                toast.error("Erro ao atualizar cliente:", error);
+            })
+        } catch (error) {
+            // Tratar erros de requisição
+            toast.error("Erro ao atualizar cliente:", error);
+            // Exibir uma mensagem de erro ao usuário
+            toast.error("Erro ao atualizar cliente. Por favor, tente novamente.");
+        }
+        closeModal();
+
     };
 
     const closeModal = () => {
         setClient(null);
         setIsModalOpen(false);
+        console.log('Fechou modal');
     };
 
 
@@ -103,24 +135,24 @@ const Client = () => {
                         {client && (
                             <form>
                                 <div className="form-group">
-                                    <div class="col-md-6 mb-3">
+                                    <div className="col-md-6 mb-3">
                                         <label>Nome</label>
-                                        <input type="text" class="form-control" defaultValue={client.nome} placeholder="Nome completo" />
+                                        <input type="text" className="form-control" defaultValue={client.nome} placeholder="Nome completo" />
                                     </div>
-                                    <div class="form-group col-md-4 mb-3">
+                                    <div className="form-group col-md-4 mb-3">
                                         <label>CPF ou CNPJ</label>
-                                        <input type="text" class="form-control" defaultValue={client.cpf_cnpj} />
+                                        <input type="text" className="form-control" defaultValue={client.cpf_cnpj} />
                                     </div>
-                                    <div class="form-group col-md-4 mb-3">
+                                    <div className="form-group col-md-4 mb-3">
                                         <label>Telefone</label>
-                                        <input type="text" class="form-control" defaultValue={client.telefone} />
+                                        <input type="text" className="form-control" defaultValue={client.telefone} />
                                     </div>
-                                    <div class="form-group col-md-6 mb-3">
+                                    <div className="form-group col-md-6 mb-3">
                                         <label>Endereço</label>
-                                        <input type="text" class="form-control" defaultValue={client.endereco} />
+                                        <input type="text" className="form-control" defaultValue={client.endereco} />
                                     </div>
                                     <div className='text-center'>
-                                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                                        <button type="submit" className="btn btn-primary" onClick={handleUpdate(client)}>Salvar Alterações</button>
                                     </div>
                                 </div>
                             </form>
