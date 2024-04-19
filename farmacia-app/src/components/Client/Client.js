@@ -2,12 +2,18 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { toast } from 'react-hot-toast';
+import InputMask from 'react-input-mask';
 import './Client.css';
 
 const Client = () => {
     const [client, setClient] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [listaClientes, setListaClientes] = useState(null);
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setClient({ ...client, [name]: value });
+    };
 
     useEffect(() => {
         handleSelect();
@@ -42,11 +48,15 @@ const Client = () => {
 
     const openModal = (client) => {
         setIsModalOpen(true);
-        console.log('Abriu modal');
         setClient(client);
     }
 
-    function handleUpdate(client) {
+    const closeModal = () => {
+        setClient(null);
+        setIsModalOpen(false);
+    };
+
+    const handleUpdate = (client) => {
         console.log("Modal aberta");
         try {
             // Montar o objeto cliente com os dados atualizados do estado do componente
@@ -72,16 +82,7 @@ const Client = () => {
             // Exibir uma mensagem de erro ao usuário
             toast.error("Erro ao atualizar cliente. Por favor, tente novamente.");
         }
-        closeModal();
-
     };
-
-    const closeModal = () => {
-        setClient(null);
-        setIsModalOpen(false);
-        console.log('Fechou modal');
-    };
-
 
     if (!listaClientes) return null;
     return (
@@ -137,22 +138,27 @@ const Client = () => {
                                 <div className="form-group">
                                     <div className="col-md-6 mb-3">
                                         <label>Nome</label>
-                                        <input type="text" className="form-control" defaultValue={client.nome} placeholder="Nome completo" />
+                                        <input type="text" className="form-control" name="nome" value={client.nome} onChange={handleInputChange} placeholder="Nome completo" />
                                     </div>
                                     <div className="form-group col-md-4 mb-3">
                                         <label>CPF ou CNPJ</label>
-                                        <input type="text" className="form-control" defaultValue={client.cpf_cnpj} />
+                                        <input 
+                                        type="text" className="form-control" name="cpf_cnpj" value={client.cpf_cnpj} onChange={handleInputChange} />
                                     </div>
                                     <div className="form-group col-md-4 mb-3">
                                         <label>Telefone</label>
-                                        <input type="text" className="form-control" defaultValue={client.telefone} />
+                                        <input type="text" className="form-control" name="telefone" value={client.telefone} onChange={handleInputChange} />
                                     </div>
                                     <div className="form-group col-md-6 mb-3">
                                         <label>Endereço</label>
-                                        <input type="text" className="form-control" defaultValue={client.endereco} />
+                                        <input type="text" className="form-control" name="endereco" value={client.endereco} onChange={handleInputChange} />
+                                    </div>
+                                    <div className="form-group col-md-6 mb-3">
+                                        <label>Desativado</label>
+                                        <input type="text" className="form-control" name="desativado" value={client.desativado} onChange={handleInputChange} />
                                     </div>
                                     <div className='text-center'>
-                                        <button type="submit" className="btn btn-primary" onClick={handleUpdate(client)}>Salvar Alterações</button>
+                                        <button type="submit" className="btn btn-primary" onClick={() =>handleUpdate(client)}>Salvar Alterações</button>
                                     </div>
                                 </div>
                             </form>
