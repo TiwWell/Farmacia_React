@@ -39,11 +39,20 @@ const Client = () => {
     }
   };
 
-  function handleDelete(clientId) {
+  function handleDeactivate(clientId) {
     axios
       .get(`http://localhost:8080/api/desativar-cliente/${clientId}`)
       .then((response) => {
         toast.success("Desativado com sucesso");
+        window.location.reload();
+      });
+  }
+
+  function handleReactivate(clientId) {
+    axios
+      .get(`http://localhost:8080/api/reativar-cliente/${clientId}`)
+      .then((response) => {
+        toast.success("Reativado com sucesso");
         window.location.reload();
       });
   }
@@ -61,7 +70,7 @@ const Client = () => {
   return (
     <>
       <div>
-        <button type="submit" className="btn btn-success float-end" onClick={() => openModal()}>
+        <button type="submit" className="btn btn-primary float-end" onClick={() => openModal()}>
           Adicionar
         </button>
       </div>
@@ -93,22 +102,18 @@ const Client = () => {
                   <td className="nome" width={200}>
                     <button
                       type="button"
-                      className="btn btn-primary me-1"
+                      className="btn btn-secondary me-1"
                       onClick={() => openModal(client)}
                     >
                       Alterar
                     </button>
                     {client.desativado === 0 ? (
-                      <button
-                        type="submit"
-                        className="btn btn-danger"
-                        onClick={() => handleDelete(client.id)}
-                      >
+                      <button type="submit" className="btn btn-danger" onClick={() => handleDeactivate(client.id)}>
                         Desativar
                       </button>
                     ) : (
-                      <button type="submit" className="btn btn-secondary">
-                        Desativado
+                      <button type="submit" className="btn btn-success" onClick={() => handleReactivate(client.id)}>
+                        Reativar
                       </button>
                     )}
                   </td>
