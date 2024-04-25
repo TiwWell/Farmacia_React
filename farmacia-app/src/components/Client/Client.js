@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
-import InputMask from "react-input-mask";
 import "./Client.css";
 import ClientModal from "./ClientModal";
 
@@ -9,6 +8,7 @@ const Client = () => {
   const [client, setClient] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [listaClientes, setListaClientes] = useState(null);
+  const [isAddMode, setIsAddMode] = useState(false);
 
   useEffect(() => {
     handleSelect();
@@ -30,7 +30,6 @@ const Client = () => {
           );
         });
     } catch (error) {
-      // Trate erros durante a configuração da solicitação
       console.error("Erro ao configurar a solicitação:", error);
       toast.error(
         "Erro no carregamento da lista de clientes. Verificar se a API está disponível.",
@@ -57,9 +56,10 @@ const Client = () => {
       });
   }
 
-  const openModal = (client) => {
+  const openModal = (client, isAddMode) => {
     setIsModalOpen(true);
     setClient(client);
+    setIsAddMode(isAddMode);
   };
 
   const handleCallback = (childData) => {
@@ -70,7 +70,11 @@ const Client = () => {
   return (
     <>
       <div>
-        <button type="submit" className="btn btn-primary float-end" onClick={() => openModal()}>
+        <button 
+          type="submit" 
+          className="btn btn-primary float-end" 
+          onClick={() => openModal()}
+        >
           Adicionar
         </button>
       </div>
@@ -103,7 +107,7 @@ const Client = () => {
                     <button
                       type="button"
                       className="btn btn-secondary me-1"
-                      onClick={() => openModal(client)}
+                      onClick={() => openModal(client, false)}
                     >
                       Alterar
                     </button>
@@ -128,6 +132,7 @@ const Client = () => {
           client={client}
           isModalOpen={isModalOpen}
           parentCallback={handleCallback}
+          isAddMode={!client}
         />
       )}
     </>
