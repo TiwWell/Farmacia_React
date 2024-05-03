@@ -19,7 +19,7 @@ function Nav() {
                   <Link className="nav-link" to="/client">Clientes</Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/remedio">Remedios</Link>
+                  <Link className="nav-link" to="/medicine">Remedios</Link>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="google.com">Farmaceuticos</a>
