@@ -96,7 +96,7 @@ const MedicineModal = (props) => {
         </h2>
         <form>
           <div className="form-group">
-          {/* <img className="form-group col-md-6 mb-3">
+          {/* <div className="form-group col-md-6 mb-3">
               <label>Imagem</label>
               <input
                 type="text"
@@ -105,7 +105,7 @@ const MedicineModal = (props) => {
                 value={medicine.imagem}
                 onChange={handleInputChange}
               />
-            </img>   */}
+            </div>   */}
             <div className="col-md-6 mb-3">
               <label>Nome</label>
               <input
@@ -120,9 +120,11 @@ const MedicineModal = (props) => {
             <div className="form-group col-md-4 mb-3">
               <label>Valor</label>
               <input
-                type="text"
+                type="number"
+                step="0.01"
                 className="form-control"
-                name="Valor"
+                id="valor"
+                name="valor"
                 value={medicine.valor}
                 onChange={handleInputChange}
               />
