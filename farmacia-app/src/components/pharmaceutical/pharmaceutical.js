@@ -1,13 +1,13 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
-import "./Medicine.css";
-import MedicineModal from "./MedicineModal";
+import "./pharmaceutical.css";
+import PharmaceuticalModal from "./pharmaceuticoModal";
 
-const Medicine = () => {
-    const [medicine, setMedicine] = useState(null);
+const Pharmaceutical = () => {
+    const [pharmaceutical, setPharmaceutical] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [listaMedicines, setListaMedicines] = useState(null);
+    const [listaPharmaceuticals, setListaPharmaceuticals] = useState(null);
     const [isAddMode, setIsAddMode] = useState(false);
 
     useEffect(() => {
@@ -17,47 +17,47 @@ const Medicine = () => {
     const handleSelect = () => {
         try {
             axios
-                .get("http://localhost:8080/api/listar-remedio")
+                .get("http://localhost:8080/api/listar-farmaceutico")
                 .then((response) => {
                     console.log(response);
-                    setListaMedicines(response.data);
+                    setListaPharmaceuticals(response.data);
                 })
                 .catch((error) => {
-                    console.error("Erro ao obter remedios:", error);
+                    console.error("Erro ao obter farmaceuticos:", error);
                     toast.error(
-                        "Erro no carregamento da lista de remedios. Verificar se a API está disponível.",
+                        "Erro no carregamento da lista de farmaceuticos. Verificar se a API está disponível.",
                         { position: "botton-right" }
                     );
                 });
         } catch (error) {
             console.error("Erro ao configurar a solicitação:", error);
             toast.error(
-                "Erro no carregamento da lista de remedios. Verificar se a API está disponível.",
+                "Erro no carregamento da lista de farmaceuticos. Verificar se a API está disponível.",
                 { position: "botton-right" }
             );
         }
     };
 
-    function handleDeactivate(medicineId) {
+    function handleDeactivate(pharmaceuticalId) {
         axios
-            .get(`http://localhost:8080/api/desativar-remedio/${medicineId}`)
+            .get(`http://localhost:8080/api/desativar-farmaceutico/${pharmaceuticalId}`)
             .then((response) => {
                 toast.success("Desativado com sucesso");
                 window.location.reload();
             });
     }
 
-    function handleReactivate(medicineId) {
+    function handleReactivate(pharmaceuticalId) {
         axios
-            .get(`http://localhost:8080/api/reativar-remedio/${medicineId}`)
+            .get(`http://localhost:8080/api/reativar-farmaceutico/${pharmaceuticalId}`)
             .then((response) => {
                 toast.success("Reativado com sucesso");
                 window.location.reload();
             });
     }
-    const openModal = (medicine, isAddMode) => {
+    const openModal = (pharmaceutical, isAddMode) => {
         setIsModalOpen(true);
-        setMedicine(medicine);
+        setPharmaceutical(pharmaceutical);
         setIsAddMode(isAddMode);
     };
 
@@ -65,7 +65,7 @@ const Medicine = () => {
         setIsModalOpen(childData);
     };
 
-    if (!listaMedicines) return null;
+    if (!listaPharmaceuticals) return null;
     return (
         <>
             <div>
@@ -81,42 +81,37 @@ const Medicine = () => {
                 <table className="table table-light w-75 mx-auto">
                     <thead>
                         <tr className="text-center">
-                            <th>Imagem</th>
                             <th>Nome</th>
-                            <th>Valor</th>
-                            <th>Quantidade</th>
+                            <th>CPF CNPJ</th>
+                            <th>CRF</th>
                             <th>Ações</th>
                         </tr>
-                        {listaMedicines.map((medicine) => {
+                        {listaPharmaceuticals.map((pharmaceutical) => {
                             return (
-                                <tr className="text-center" key={medicine.id}>
+                                <tr className="text-center" key={pharmaceutical.id}>
                                     <td width={200}>
-                                        <img width={200} height={200} src={medicine.img}/>
+                                        <h4>{pharmaceutical.nome}</h4>
                                     </td>
                                     <td width={200}>
-                                        <h4>{medicine.nome}</h4>
+                                        <h4>{pharmaceutical.cpf_cnpj}</h4>
                                     </td>
                                     <td width={200}>
-                                        <h4>{medicine.valor}</h4>
-                                    </td>
-
-                                    <td width={200}>
-                                        <h4>{medicine.quantidade}</h4>
+                                        <h4>{pharmaceutical.crf}</h4>
                                     </td>
                                     <td width={200}>
                                         <button
                                             type="button"
                                             className="btn btn-secondary me-1"
-                                            onClick={() => openModal(medicine, false)}
+                                            onClick={() => openModal(pharmaceutical, false)}
                                         >
                                             Alterar
                                         </button>
-                                        {medicine.desativado === 0 ? (
-                                            <button type="submit" className="btn btn-danger" onClick={() => handleDeactivate(medicine.id)}>
+                                        {pharmaceutical.desativado === 0 ? (
+                                            <button type="submit" className="btn btn-danger" onClick={() => handleDeactivate(pharmaceutical.id)}>
                                                 Desativar
                                             </button>
                                         ) : (
-                                            <button type="submit" className="btn btn-success" onClick={() => handleReactivate(medicine.id)}>
+                                            <button type="submit" className="btn btn-success" onClick={() => handleReactivate(pharmaceutical.id)}>
                                                 Reativar
                                             </button>
                                         )}
@@ -128,11 +123,11 @@ const Medicine = () => {
                 </table>
             </div>
             {isModalOpen && (
-                <MedicineModal
-                    medicine={medicine}
+                <PharmaceuticalModal
+                    pharmaceutical={pharmaceutical}
                     isModalOpen={isModalOpen}
                     parentCallback={handleCallback}
-                    isAddMode={!medicine}
+                    isAddMode={!pharmaceutical}
                 />
             )}
         </>
@@ -140,4 +135,4 @@ const Medicine = () => {
 
 }
 
-export default Medicine;
+export default Pharmaceutical;

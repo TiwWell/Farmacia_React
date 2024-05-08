@@ -10,6 +10,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Medicine from './pages/MedicinePage';
 import Nav from './components/Nav';
 import Home from './pages/HomePage';
+import PharmaceuticalPage from './pages/PharmaceuticalPage';
 
 export default function App() {
 
@@ -20,6 +21,7 @@ export default function App() {
                     <Route index element={<Home />} />
                     <Route path="medicine" element={<Medicine />} />
                     <Route path="client" element={<ClientPage />} />
+                    <Route path="pharmaceutical" element={<PharmaceuticalPage />} />                    
                     <Route path="*" element={<Home />} />
                 </Route>
             </Routes>

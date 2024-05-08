@@ -22,7 +22,7 @@ function Nav() {
                   <Link className="nav-link" to="/medicine">Remedios</Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="google.com">Farmaceuticos</a>
+                  <Link className="nav-link" to="/pharmaceutical">Farmaceuticos</Link>
                 </li>
               </ul>
             </div>
