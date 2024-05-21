@@ -2,16 +2,30 @@ import Modal from "react-modal";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import React, { useState } from "react";
+import InputMask from "react-input-mask";
 
 const ClientModal = (props) => {
-  const [client, setClient] = useState({...props.client});
+  const [client, setClient] = useState({ ...props.client });
   const [isModalOpen, setIsModalOpen] = useState(props.isModalOpen);
   const [isAddMode, setIsAddMode] = useState(props.isAddMode);
-
+  const [maskcpfCnpj, setmaskcpfCnpj] = useState("99999999999999");
+  
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setClient({ ...client, [name]: value });
   };
+
+  const handleCpfCnpjChange = (event) => {
+    // console.log(event.target.value.replace(/[^0-9]/g, "").length);
+    // if(event.target.value.replace(/[^0-9]/g, "").length == 11){
+    //   setmaskcpfCnpj("999.999.999-99")
+    //   console.log(maskcpfCnpj);
+    // }
+    const { name, value } = event.target;
+    setClient({ ...client, [name]: value });
+
+  };
+
 
   const handleAction = () => {
     if (isAddMode) {
@@ -31,7 +45,7 @@ const ClientModal = (props) => {
     console.log("Modal aberta");
     try {
       // Montar o objeto cliente com os dados atualizados do estado do componente
-      const clienteAtualizado = {...client};
+      const clienteAtualizado = { ...client };
       // Enviar uma requisição POST para a API com os dados do cliente atualizados
       axios
         .put(`http://localhost:8080/api/atualizar-cliente`, clienteAtualizado)
@@ -54,7 +68,7 @@ const ClientModal = (props) => {
     console.log("Modal aberta");
     try {
       // Montar o objeto cliente com os dados atualizados do estado do componente
-      const novoCliente = { ...client};
+      const novoCliente = { ...client };
 
       console.log(client);
       // Enviar uma requisição POST para a API com os dados do cliente atualizados
@@ -74,7 +88,6 @@ const ClientModal = (props) => {
       toast.error("Erro ao adicionar cliente. Por favor, tente novamente.");
     }
   };
-
 
   return (
     <Modal
@@ -102,6 +115,7 @@ const ClientModal = (props) => {
                 type="text"
                 className="form-control"
                 name="nome"
+                maxLength={100}
                 value={client.nome}
                 onChange={handleInputChange}
                 placeholder="Nome completo"
@@ -109,22 +123,24 @@ const ClientModal = (props) => {
             </div>
             <div className="form-group col-md-4 mb-3">
               <label>CPF ou CNPJ</label>
-              <input
+              <InputMask
+                mask={maskcpfCnpj}
+                value={client.cpf_cnpj}
+                onChange={handleCpfCnpjChange}                
                 type="text"
                 className="form-control"
                 name="cpf_cnpj"
-                value={client.cpf_cnpj}
-                onChange={handleInputChange}
               />
             </div>
             <div className="form-group col-md-4 mb-3">
               <label>Telefone</label>
-              <input
+              <InputMask
+                mask="(99) 99999-9999"
+                value={client.telefone}
+                onChange={handleInputChange}
                 type="text"
                 className="form-control"
                 name="telefone"
-                value={client.telefone}
-                onChange={handleInputChange}
               />
             </div>
             <div className="form-group col-md-6 mb-3">
@@ -133,18 +149,19 @@ const ClientModal = (props) => {
                 type="text"
                 className="form-control"
                 name="endereco"
+                maxLength={200}
                 value={client.endereco}
                 onChange={handleInputChange}
               />
-            </div>            
+            </div>
             <div className="text-center">
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  onClick={handleAction}
-                >
-                  {isAddMode ? "Salvar Novo" : "Salvar Alterações"}
-                </button>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={handleAction}
+              >
+                {isAddMode ? "Salvar Novo" : "Salvar Alterações"}
+              </button>
             </div>
           </div>
         </form>
