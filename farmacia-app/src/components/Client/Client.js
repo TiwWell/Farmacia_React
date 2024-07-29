@@ -7,54 +7,50 @@ import ClientModal from "./ClientModal";
 const Client = () => {
   const [client, setClient] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [listaClientes, setListaClientes] = useState(null);
+  const [listaClientes, setListaClientes] = useState([]);
   const [isAddMode, setIsAddMode] = useState(false);
 
   useEffect(() => {
     handleSelect();
   }, []);
 
-  const handleSelect = () => {
+  const handleSelect = async () => {
     try {
-      axios
-        .get("http://localhost:8080/api/lista-cliente")
-        .then((response) => {
-          console.log(response);
-          setListaClientes(response.data);
-        })
-        .catch((error) => {
-          console.error("Erro ao obter clientes:", error);
-          toast.error(
-            "Erro no carregamento da lista de clientes. Verificar se a API está disponível.",
-            { position: "botton-right" }
-          );
-        });
+      const response = await axios.get(
+        "http://localhost:8080/api/lista-cliente"
+      );
+      if (response.data.codRetorno === 200) {
+          setListaClientes(response.data.listaClientes);
+      } else {
+        toast.error(
+          "Erro no carregamento da lista de clientes. Verificar se a API está disponível.",
+          { position: "bottom-right" }
+        );
+      }
     } catch (error) {
       console.error("Erro ao configurar a solicitação:", error);
       toast.error(
         "Erro no carregamento da lista de clientes. Verificar se a API está disponível.",
-        { position: "botton-right" }
+        { position: "bottom-right" }
       );
     }
   };
 
-  function handleDeactivate(clientId) {
-    axios
-      .get(`http://localhost:8080/api/desativar-cliente/${clientId}`)
-      .then((response) => {
-        toast.success("Desativado com sucesso");
-        window.location.reload();
-      });
-  }
-
-  function handleReactivate(clientId) {
-    axios
-      .get(`http://localhost:8080/api/reativar-cliente/${clientId}`)
-      .then((response) => {
-        toast.success("Reativado com sucesso");
-        window.location.reload();
-      });
-  }
+  const handleRevert = async (clientId) => {
+    try {
+      await axios.get(
+        `http://localhost:8080/api/inverter-status-clientes/${clientId}`
+      );
+      toast.success("Status do clientes invertido com sucesso");
+      handleSelect(); // Recarrega a lista de clientes após a inversão de status
+    } catch (error) {
+      console.error("Erro ao inverter status do clientes:", error);
+      toast.error(
+        "Erro ao inverter o status do clientes. Verificar se a API está disponível.",
+        { position: "bottom-right" }
+      );
+    }
+  };
 
   const openModal = (client, isAddMode) => {
     setIsModalOpen(true);
@@ -65,13 +61,30 @@ const Client = () => {
   const handleCallback = (childData) => {
     setIsModalOpen(childData);
   };
+  const formatPhoneNumber = (phoneNumber) => {
+    // Remove todos os caracteres não numéricos
+    const cleaned = ('' + phoneNumber).replace(/\D/g, '');
+  
+    // Verifica se o número tem 10 ou 11 dígitos
+    if (cleaned.length === 11) {
+      // Formata o número no formato (11) 91234-56789
+      return `(${cleaned.substring(0, 2)}) ${cleaned.substring(2, 7)}-${cleaned.substring(7)}`;
+    } else if (cleaned.length === 10) {
+      // Formata o número no formato (11) 1234-5678
+      return `(${cleaned.substring(0, 2)}) ${cleaned.substring(2, 6)}-${cleaned.substring(6)}`;
+    }
+  
+    // Retorna o número original se não tiver o comprimento esperado
+    return phoneNumber;
+  };
+  
+  if (!listaClientes.length) return null;
 
-  if (!listaClientes) return null;
   return (
     <>
       <div>
         <button 
-          type="submit" 
+          type="button" 
           className="btn btn-primary float-end" 
           onClick={() => openModal()}
         >
@@ -88,43 +101,51 @@ const Client = () => {
               <th>Endereco</th>
               <th>Ações</th>
             </tr>
-            {listaClientes.map((client) => {
-              return (
-                <tr key={client.id}>
-                  <td className="nome">
-                    <h4>{client.nome}</h4>
-                  </td>
-                  <td className="nome" width={300}>
-                    <h4>{client.cpf_cnpj}</h4>
-                  </td>
-                  <td className="nome" width={250}>
-                    <h4>{client.telefone}</h4>
-                  </td>
-                  <td className="nome" width={350}>
-                    <h4>{client.endereco}</h4>
-                  </td>
-                  <td className="nome" width={200}>
+          </thead>
+          <tbody>
+            {listaClientes.map((client) => (
+              <tr key={client.id}>
+                <td>
+                  <h4>{client.nome}</h4>
+                </td>
+                <td width={300}>
+                  <h4>{client.cpf_cnpj}</h4>
+                </td>
+                <td width={250}>
+                  <h4>{formatPhoneNumber(client.telefone)}</h4>
+                </td>
+                <td  width={350}>
+                  <h4>{client.endereco}</h4>
+                </td>
+                <td width={200}>
+                  <button
+                    type="button"
+                    className="btn btn-secondary me-1"
+                    onClick={() => openModal(client, false)}
+                  >
+                    Alterar
+                  </button>
+                  {client.status === 0 ? (
                     <button
                       type="button"
-                      className="btn btn-secondary me-1"
-                      onClick={() => openModal(client, false)}
+                      className="btn btn-danger"
+                      onClick={() => handleRevert(client.id)}
                     >
-                      Alterar
+                      Desativado
                     </button>
-                    {client.desativado === 0 ? (
-                      <button type="submit" className="btn btn-danger" onClick={() => handleDeactivate(client.id)}>
-                        Desativar
-                      </button>
-                    ) : (
-                      <button type="submit" className="btn btn-success" onClick={() => handleReactivate(client.id)}>
-                        Reativar
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </thead>
+                  ) : (
+                    <button
+                      type="button"
+                      className="btn btn-success"
+                      onClick={() => handleRevert(client.id)}
+                    >
+                      Ativado
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
       {isModalOpen && (
