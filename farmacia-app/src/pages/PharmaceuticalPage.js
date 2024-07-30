@@ -1,5 +1,5 @@
 import './PharmaceuticalPage.css';
-import Navbar from '../components/Nav.js';
+import Navbar from '../components/Nav/Nav.js';
 import Pharmaceutical from '../components/pharmaceutical/pharmaceutical.js'
 import { Toaster, toast } from 'react-hot-toast';
 

@@ -1,9 +1,13 @@
 import { Link, Outlet } from 'react-router-dom';
 import './Nav.css';
+import farmaciaNav from './farmacia logo.jpg';
 function Nav() {
   return (<>
     <div className="App">
       <header>
+      <div className="header-image-container">
+          <img src={farmaciaNav} alt="Descrição da imagem" className="header-image" />
+        </div>
         <nav className="navbar navbar-expand-lg bg-info">
           <div className="container-fluid">
             <span className="navbar-brand" >Farmácia</span>

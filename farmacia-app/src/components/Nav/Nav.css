@@ -1,0 +1,27 @@
+nav a {
+    color: white !important;
+}
+
+.custom-navbar {
+    background-color: #ff5733;
+    margin: 0;
+}
+
+.header-image-container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;  /* Centraliza verticalmente, se necessário */
+    overflow: hidden; /* Garante que qualquer conteúdo extra seja cortado */
+}
+  
+.header-image {
+    width: 100%;
+    height: 30vh;
+    min-height: 200px;
+    max-height: 350px;
+    object-fit: cover; /* Garante que a imagem cubra totalmente a área, possivelmente cortando partes */
+    display: block; /* Remove o espaçamento inferior da imagem */
+}

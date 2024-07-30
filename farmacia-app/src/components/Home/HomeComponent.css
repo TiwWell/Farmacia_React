@@ -1,0 +1,26 @@
+.home-component {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .text-side {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .image-side {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .image-side img {
+    max-width: 100%;
+    min-width: 500px;
+    min-height: 350px;
+    height: auto;
+    border-radius: 10px; /* Adiciona bordas arredondadas à imagem */
+  }

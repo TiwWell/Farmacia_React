@@ -8,7 +8,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import Modal from 'react-modal'; // Importe o Modal
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Medicine from './pages/MedicinePage';
-import Nav from './components/Nav';
+import Nav from './components/Nav/Nav';
 import Home from './pages/HomePage';
 import PharmaceuticalPage from './pages/PharmaceuticalPage';
 
