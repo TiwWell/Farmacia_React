@@ -19,7 +19,6 @@ const Pharmaceutical = () => {
             axios
                 .get("http://localhost:8080/api/listar-farmaceutico")
                 .then((response) => {
-                    console.log(response);
                     setListaPharmaceuticals(response.data);
                 })
                 .catch((error) => {
@@ -71,7 +70,7 @@ const Pharmaceutical = () => {
             <div>
                 <button
                     type="submit"
-                    className="btn btn-primary float-end"
+                    className="btn btn-primary float-end custom-button"
                     onClick={() => openModal()}
                 >
                     Adicionar

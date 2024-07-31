@@ -28,7 +28,6 @@ const MedicineModal = (props) => {
   };
 
   const handleUpdate = (medicine) => {
-    console.log("Modal aberta");
     try {
       // Montar o objeto remedio com os dados atualizados do estado do componente
       const remedioAtualizado = {...medicine};
@@ -37,7 +36,6 @@ const MedicineModal = (props) => {
         .put(`http://localhost:8080/api/atualizar-remedio`, remedioAtualizado)
         .then((response) => {
           toast.success("Remedio atualizado com sucesso!");
-          console.log("Remedio atualizado", medicine);
         })
         .catch((error) => {
           toast.error("Erro ao atualizar remedio:", error);
@@ -51,18 +49,15 @@ const MedicineModal = (props) => {
   };
 
   const handleCreate = () => {
-    console.log("Modal aberta");
     try {
       // Montar o objeto remedio com os dados atualizados do estado do componente
       const novoRemedio = { ...medicine};
 
-      console.log(medicine);
       // Enviar uma requisição POST para a API com os dados do remedio atualizados
       axios
         .post(`http://localhost:8080/api/adicionar-remedio`, novoRemedio)
         .then((response) => {
           toast.success("Remedio adicionado com sucesso!");
-          console.log("Remedio adicionado", medicine);
         })
         .catch((error) => {
           toast.error("Erro ao adicionar remedio:", error);

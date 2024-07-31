@@ -1,0 +1,6 @@
+.custom-button {
+    position: fixed; /* Posiciona o botão de forma fixa na tela */
+    bottom: 20px; /* Espaço do fundo para o botão */
+    right: 20px; /* Espaço da direita para o botão */
+    z-index: 1000; /* Garante que o botão fique acima dos outros elementos */
+}

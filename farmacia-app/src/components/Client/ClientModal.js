@@ -16,11 +16,6 @@ const ClientModal = (props) => {
   };
 
   const handleCpfCnpjChange = (event) => {
-    // console.log(event.target.value.replace(/[^0-9]/g, "").length);
-    // if(event.target.value.replace(/[^0-9]/g, "").length == 11){
-    //   setmaskcpfCnpj("999.999.999-99")
-    //   console.log(maskcpfCnpj);
-    // }
     const { name, value } = event.target;
     setClient({ ...client, [name]: value });
 
@@ -42,7 +37,6 @@ const ClientModal = (props) => {
   };
 
   const handleUpdate = (client) => {
-    console.log("Modal aberta");
     try {
       // Montar o objeto cliente com os dados atualizados do estado do componente
       const clienteAtualizado = { ...client };
@@ -51,7 +45,6 @@ const ClientModal = (props) => {
         .put(`http://localhost:8080/api/atualizar-cliente`, clienteAtualizado)
         .then((response) => {
           toast.success("Cliente atualizado com sucesso!");
-          console.log("Cliente atualizado", client);
         })
         .catch((error) => {
           toast.error("Erro ao atualizar cliente:", error);
@@ -65,18 +58,15 @@ const ClientModal = (props) => {
   };
 
   const handleCreate = () => {
-    console.log("Modal aberta");
     try {
       // Montar o objeto cliente com os dados atualizados do estado do componente
       const novoCliente = { ...client };
 
-      console.log(client);
       // Enviar uma requisição POST para a API com os dados do cliente atualizados
       axios
         .post(`http://localhost:8080/api/adicionar-cliente`, novoCliente)
         .then((response) => {
           toast.success("Cliente adicionado com sucesso!");
-          console.log("Cliente adicionado", client);
         })
         .catch((error) => {
           toast.error("Erro ao adicionar cliente:", error);

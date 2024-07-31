@@ -28,7 +28,6 @@ const PharmaceuticalModal = (props) => {
   };
 
   const handleUpdate = (pharmaceutical) => {
-    console.log("Modal aberta");
     try {
       // Montar o objeto farmaceutico com os dados atualizados do estado do componente
       const pharmaceuticalAtualizado = {...pharmaceutical};
@@ -37,7 +36,6 @@ const PharmaceuticalModal = (props) => {
         .put(`http://localhost:8080/api/atualizar-farmaceutico`, pharmaceuticalAtualizado)
         .then((response) => {
           toast.success("Farmaceutico atualizado com sucesso!");
-          console.log("Farmaceutico atualizado", pharmaceutical);
         })
         .catch((error) => {
           toast.error("Erro ao atualizar farmaceutico:", error);
@@ -51,18 +49,15 @@ const PharmaceuticalModal = (props) => {
   };
 
   const handleCreate = () => {
-    console.log("Modal aberta");
     try {
       // Montar o objeto farmaceutico com os dados atualizados do estado do componente
       const novoPharmaceutical = { ...pharmaceutical};
 
-      console.log(pharmaceutical);
       // Enviar uma requisição POST para a API com os dados do farmaceutico atualizados
       axios
         .post(`http://localhost:8080/api/adicionar-farmaceutico`, novoPharmaceutical)
         .then((response) => {
           toast.success("Farmaceutico adicionado com sucesso!");
-          console.log("Farmaceutico adicionado", pharmaceutical);
         })
         .catch((error) => {
           toast.error("Erro ao adicionar farmaceutico:", error);

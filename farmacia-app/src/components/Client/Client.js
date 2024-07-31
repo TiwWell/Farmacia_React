@@ -85,7 +85,7 @@ const Client = () => {
       <div>
         <button 
           type="button" 
-          className="btn btn-primary float-end" 
+          className="btn btn-primary float-end custom-button" 
           onClick={() => openModal()}
         >
           Adicionar
