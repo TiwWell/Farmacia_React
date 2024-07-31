@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import "./Medicine.css";
 import MedicineModal from "./MedicineModal";
+import defaultImage from "./default.jpeg";
 
 const Medicine = () => {
   const [medicine, setMedicine] = useState(null);
@@ -19,7 +20,6 @@ const Medicine = () => {
       const response = await axios.get(
         "http://localhost:8080/api/listar-remedio"
       );
-      console.log(response.data.listaRemedios);
       if (response.data.codRetorno === 200) {
         setListaMedicines(response.data.listaRemedios);
       } else {
@@ -69,7 +69,7 @@ const Medicine = () => {
       <div>
         <button
           type="submit"
-          className="btn btn-primary float-end"
+          className="btn btn-primary float-end custom-button"
           onClick={() => openModal(null, true)}
         >
           Adicionar
@@ -93,7 +93,7 @@ const Medicine = () => {
                   <img
                     width={200}
                     height={200}
-                    src={medicine.img}
+                    src={medicine.img && medicine.img.trim() ? medicine.img : defaultImage}
                     alt={medicine.nome}
                   />
                 </td>
