@@ -10,7 +10,7 @@ function HomeComponent({titulo, descricao, imagemUrl, imagemAlt}) {
           <p>{descricao}</p>
         </div>
         <div className="image-side">
-          <img src={imagemUrl} alt="TEste" />
+          <img src={imagemUrl} alt="Teste" />
         </div>
       </div>
       </>

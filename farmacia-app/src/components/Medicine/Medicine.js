@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import "./Medicine.css";
 import MedicineModal from "./MedicineModal";
-import defaultImage from "./default.jpeg";
+import defaultImagem from "./default.jpeg";
 
 const Medicine = () => {
   const [medicine, setMedicine] = useState(null);
@@ -79,7 +79,7 @@ const Medicine = () => {
         <table className="table table-light w-75 mx-auto">
           <thead>
             <tr className="text-center">
-              <th>Imagem</th>
+              {/* <th>Imagem</th> Voltará na 2.0 com conversão de imagens em bytes para o banco e conversão da imagem para o front*/}
               <th>Nome</th>
               <th>Valor</th>
               <th>Quantidade</th>
@@ -89,14 +89,14 @@ const Medicine = () => {
           <tbody>
             {listaMedicines.map((medicine) => (
               <tr className="text-center" key={medicine.id}>
-                <td width={200}>
+                {/* <td width={200}>
                   <img
                     width={200}
                     height={200}
-                    src={medicine.img && medicine.img.trim() ? medicine.img : defaultImage}
+                    src={medicine.img && medicine.img.trim() ? medicine.img : defaultImagem}
                     alt={medicine.nome}
                   />
-                </td>
+                </td> Voltará na 2.0 com conversão de imagens em bytes para o banco e conversão da imagem para o front */}
                 <td width={200}>
                   <h4>{medicine.nome}</h4>
                 </td>

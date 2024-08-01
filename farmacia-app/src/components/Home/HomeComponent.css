@@ -8,6 +8,9 @@
   .text-side {
     flex: 1;
     padding: 20px;
+    background-color: rgb(102,147,211);
+    border-top-left-radius: 50px 50px;
+    border-bottom-left-radius: 50px 50px;
   }
   
   .image-side {
@@ -23,4 +26,7 @@
     min-height: 350px;
     height: auto;
     border-radius: 10px; /* Adiciona bordas arredondadas à imagem */
+  }
+  .p{
+    color: black;
   }
