@@ -7,53 +7,52 @@ import PharmaceuticalModal from "./pharmaceuticoModal";
 const Pharmaceutical = () => {
     const [pharmaceutical, setPharmaceutical] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [listaPharmaceuticals, setListaPharmaceuticals] = useState(null);
+    const [listaPharmaceuticals, setListaPharmaceuticals] = useState([]);
     const [isAddMode, setIsAddMode] = useState(false);
 
     useEffect(() => {
         handleSelect();
     }, []);
 
-    const handleSelect = () => {
+    const handleSelect = async () => {
         try {
-            axios
-                .get("http://localhost:8080/api/listar-farmaceutico")
-                .then((response) => {
-                    setListaPharmaceuticals(response.data);
-                })
-                .catch((error) => {
-                    console.error("Erro ao obter farmaceuticos:", error);
-                    toast.error(
-                        "Erro no carregamento da lista de farmaceuticos. Verificar se a API está disponível.",
-                        { position: "botton-right" }
-                    );
-                });
+            const response = await axios.get(
+                "http://localhost:8080/api/listar-farmaceutico"
+            );
+            if (response.data.codRetorno === 200) {
+                setListaPharmaceuticals(response.data.listaFarmaceuticos);
+            } else {
+                toast.error(
+                    "Erro no carregamento da lista de faramceuticos. Verificar se a API está disponível.",
+                    { position: "bottom-right" }
+                );
+            }
         } catch (error) {
             console.error("Erro ao configurar a solicitação:", error);
             toast.error(
-                "Erro no carregamento da lista de farmaceuticos. Verificar se a API está disponível.",
+                "Erro no carregamento da lista de faramceuticos. Verificar se a API está disponível.",
                 { position: "botton-right" }
             );
         }
     };
 
-    function handleDeactivate(pharmaceuticalId) {
-        axios
-            .get(`http://localhost:8080/api/desativar-farmaceutico/${pharmaceuticalId}`)
-            .then((response) => {
-                toast.success("Desativado com sucesso");
-                window.location.reload();
-            });
-    }
 
-    function handleReactivate(pharmaceuticalId) {
-        axios
-            .get(`http://localhost:8080/api/reativar-farmaceutico/${pharmaceuticalId}`)
-            .then((response) => {
-                toast.success("Reativado com sucesso");
-                window.location.reload();
-            });
-    }
+    const handleRevert = async (pharmaceuticalId) => {
+        try {
+            await axios.get(
+                `http://localhost:8080/api/inverter-status-farmaceutico/${pharmaceuticalId}`
+            );
+            toast.success("Status do farmaceuticos invertido com sucesso");
+            handleSelect(); // Recarrega a lista de farmaceuticos após a inversão de status
+        } catch (error) {
+            console.error("Erro ao inverter status do farmaceutico:", error);
+            toast.error(
+                "Erro ao inverter o status do farmaceuticos. Verificar se a API está disponível.",
+                { position: "bottom-right" }
+            );
+        }
+    };
+
     const openModal = (pharmaceutical, isAddMode) => {
         setIsModalOpen(true);
         setPharmaceutical(pharmaceutical);
@@ -64,16 +63,19 @@ const Pharmaceutical = () => {
         setIsModalOpen(childData);
     };
 
-    if (!listaPharmaceuticals) return null;
+    if (!listaPharmaceuticals.length) return null;
+
     return (
         <>
             <div>
                 <button
                     type="submit"
-                    className="btn btn-primary float-end custom-button"
+                    className="Btn custom-button"
                     onClick={() => openModal()}
                 >
-                    Adicionar
+                    <div class="sign">+</div>
+
+                    <div class="text">Adicionar</div>
                 </button>
             </div>
             <div>
@@ -106,12 +108,16 @@ const Pharmaceutical = () => {
                                             Alterar
                                         </button>
                                         {pharmaceutical.desativado === 0 ? (
-                                            <button type="submit" className="btn btn-danger" onClick={() => handleDeactivate(pharmaceutical.id)}>
-                                                Desativar
+                                            <button type="submit"
+                                                className="btn btn-danger"
+                                                onClick={() => handleRevert(pharmaceutical.id)}>
+                                                Desativado
                                             </button>
                                         ) : (
-                                            <button type="submit" className="btn btn-success" onClick={() => handleReactivate(pharmaceutical.id)}>
-                                                Reativar
+                                            <button type="submit"
+                                                className="btn btn-success"
+                                                onClick={() => handleRevert(pharmaceutical.id)}>
+                                                Ativado
                                             </button>
                                         )}
                                     </td>
