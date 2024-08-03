@@ -69,10 +69,12 @@ const Medicine = () => {
       <div>
         <button
           type="submit"
-          className="btn btn-primary float-end custom-button"
-          onClick={() => openModal(null, true)}
+          className="Btn custom-button"
+          onClick={() => openModal()}
         >
-          Adicionar
+          <div class="sign">+</div>
+
+          <div class="text">Adicionar</div>
         </button>
       </div>
       <div>

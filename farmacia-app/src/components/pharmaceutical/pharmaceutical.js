@@ -20,6 +20,7 @@ const Pharmaceutical = () => {
                 "http://localhost:8080/api/listar-farmaceutico"
             );
             if (response.data.codRetorno === 200) {
+                console.log(response.data)
                 setListaPharmaceuticals(response.data.listaFarmaceuticos);
             } else {
                 toast.error(
@@ -62,6 +63,24 @@ const Pharmaceutical = () => {
     const handleCallback = (childData) => {
         setIsModalOpen(childData);
     };
+    // Função para formatar CPF
+    function formatCPF(cpf) {
+        return cpf
+            .replace(/\D/g, '') // Remove tudo que não é dígito
+            .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona ponto
+            .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona ponto
+            .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona hífen
+    }
+
+    // Função para formatar CNPJ
+    function formatCNPJ(cnpj) {
+        return cnpj
+            .replace(/\D/g, '') // Remove tudo que não é dígito
+            .replace(/(\d{2})(\d)/, '$1.$2') // Adiciona ponto
+            .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona ponto
+            .replace(/(\d{3})(\d)/, '$1/$2') // Adiciona barra
+            .replace(/(\d{4})(\d{2})$/, '$1-$2'); // Adiciona hífen
+    }
 
     if (!listaPharmaceuticals.length) return null;
 
@@ -94,7 +113,11 @@ const Pharmaceutical = () => {
                                         <h4>{pharmaceutical.nome}</h4>
                                     </td>
                                     <td width={200}>
-                                        <h4>{pharmaceutical.cpf_cnpj}</h4>
+                                        <h4>
+                                            {pharmaceutical.cpf_cnpj.length <= 11
+                                                ? formatCPF(pharmaceutical.cpf_cnpj)
+                                                : formatCNPJ(pharmaceutical.cpf_cnpj)}
+                                        </h4>
                                     </td>
                                     <td width={200}>
                                         <h4>{pharmaceutical.crf}</h4>
@@ -107,7 +130,7 @@ const Pharmaceutical = () => {
                                         >
                                             Alterar
                                         </button>
-                                        {pharmaceutical.desativado === 0 ? (
+                                        {pharmaceutical.status === 0 ? (
                                             <button type="submit"
                                                 className="btn btn-danger"
                                                 onClick={() => handleRevert(pharmaceutical.id)}>

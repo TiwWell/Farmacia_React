@@ -20,7 +20,7 @@ const Client = () => {
         "http://localhost:8080/api/lista-cliente"
       );
       if (response.data.codRetorno === 200) {
-          setListaClientes(response.data.listaClientes);
+        setListaClientes(response.data.listaClientes);
       } else {
         toast.error(
           "Erro no carregamento da lista de clientes. Verificar se a API está disponível.",
@@ -64,7 +64,7 @@ const Client = () => {
   const formatPhoneNumber = (phoneNumber) => {
     // Remove todos os caracteres não numéricos
     const cleaned = ('' + phoneNumber).replace(/\D/g, '');
-  
+
     // Verifica se o número tem 10 ou 11 dígitos
     if (cleaned.length === 11) {
       // Formata o número no formato (11) 91234-56789
@@ -73,22 +73,24 @@ const Client = () => {
       // Formata o número no formato (11) 1234-5678
       return `(${cleaned.substring(0, 2)}) ${cleaned.substring(2, 6)}-${cleaned.substring(6)}`;
     }
-  
+
     // Retorna o número original se não tiver o comprimento esperado
     return phoneNumber;
   };
-  
+
   if (!listaClientes.length) return null;
 
   return (
     <>
       <div>
-        <button 
-          type="button" 
-          className="btn btn-primary float-end custom-button" 
+        <button
+          type="submit"
+          className="Btn custom-button"
           onClick={() => openModal()}
         >
-          Adicionar
+          <div class="sign">+</div>
+
+          <div class="text">Adicionar</div>
         </button>
       </div>
       <div>
@@ -114,7 +116,7 @@ const Client = () => {
                 <td width={250}>
                   <h4>{formatPhoneNumber(client.telefone)}</h4>
                 </td>
-                <td  width={350}>
+                <td width={350}>
                   <h4>{client.endereco}</h4>
                 </td>
                 <td width={200}>
