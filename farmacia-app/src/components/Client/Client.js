@@ -102,9 +102,11 @@ const Client = () => {
       .replace(/(\d{4})(\d{2})$/, "$1-$2"); // Adiciona hífen
   }
 
-  const filteredClients = listaClientes.filter((client) =>
-    client.nome.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredClients = listaClientes
+    .sort((a, b) => a.id - b.id)
+    .filter((client) =>
+      client.nome.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
   const handleClearSearch = () => {
     setSearchTerm("");
@@ -114,6 +116,9 @@ const Client = () => {
 
   return (
     <>
+      <div className="title container w-75 mx-auto mb-3">
+        <h1>Lista de Clientes</h1>
+      </div>
       <div>
         <button
           type="submit"
@@ -139,6 +144,7 @@ const Client = () => {
         <table className="table table-light table-bordered table-hover w-75 mx-auto">
           <thead>
             <tr className="text-center">
+              <th>Id</th>
               <th>Nome</th>
               <th>CPF CNPJ</th>
               <th>Telefone</th>
@@ -149,6 +155,9 @@ const Client = () => {
           <tbody>
             {filteredClients.map((client) => (
               <tr key={client.id}>
+                <td>
+                  <h4>{client.id}</h4>
+                </td>
                 <td>
                   <h4>{client.nome}</h4>
                 </td>

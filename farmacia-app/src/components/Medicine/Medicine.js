@@ -64,6 +64,8 @@ const Medicine = () => {
   };
 
   if (!listaMedicines.length) return null;
+   const sortedMedicines = [...listaMedicines].sort((a, b) => a.id - b.id);
+
   return (
     <>
       <div>
@@ -82,6 +84,7 @@ const Medicine = () => {
           <thead>
             <tr className="text-center">
               {/* <th>Imagem</th> Voltará na 2.0 com conversão de imagens em bytes para o banco e conversão da imagem para o front*/}
+              <th>Id</th>
               <th>Nome</th>
               <th>Valor</th>
               <th>Quantidade</th>
@@ -89,16 +92,20 @@ const Medicine = () => {
             </tr>
           </thead>
           <tbody>
-            {listaMedicines.map((medicine) => (
+            {sortedMedicines.map((medicine) => (
               <tr className="text-center" key={medicine.id}>
+
                 {/* <td width={200}>
                   <img
-                    width={200}
-                    height={200}
-                    src={medicine.img && medicine.img.trim() ? medicine.img : defaultImagem}
-                    alt={medicine.nome}
+                  width={200}
+                  height={200}
+                  src={medicine.img && medicine.img.trim() ? medicine.img : defaultImagem}
+                  alt={medicine.nome}
                   />
-                </td> Voltará na 2.0 com conversão de imagens em bytes para o banco e conversão da imagem para o front */}
+                  </td> Voltará na 2.0 com conversão de imagens em bytes para o banco e conversão da imagem para o front */}
+                <td width={200}>
+                  <h4>{medicine.id}</h4>
+                </td>
                 <td width={200}>
                   <h4>{medicine.nome}</h4>
                 </td>
