@@ -9,6 +9,7 @@ const Client = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [listaClientes, setListaClientes] = useState([]);
   const [isAddMode, setIsAddMode] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     handleSelect();
@@ -63,19 +64,50 @@ const Client = () => {
   };
   const formatPhoneNumber = (phoneNumber) => {
     // Remove todos os caracteres não numéricos
-    const cleaned = ('' + phoneNumber).replace(/\D/g, '');
+    const cleaned = ("" + phoneNumber).replace(/\D/g, "");
 
     // Verifica se o número tem 10 ou 11 dígitos
     if (cleaned.length === 11) {
       // Formata o número no formato (11) 91234-56789
-      return `(${cleaned.substring(0, 2)}) ${cleaned.substring(2, 7)}-${cleaned.substring(7)}`;
+      return `(${cleaned.substring(0, 2)}) ${cleaned.substring(
+        2,
+        7
+      )}-${cleaned.substring(7)}`;
     } else if (cleaned.length === 10) {
       // Formata o número no formato (11) 1234-5678
-      return `(${cleaned.substring(0, 2)}) ${cleaned.substring(2, 6)}-${cleaned.substring(6)}`;
+      return `(${cleaned.substring(0, 2)}) ${cleaned.substring(
+        2,
+        6
+      )}-${cleaned.substring(6)}`;
     }
 
     // Retorna o número original se não tiver o comprimento esperado
     return phoneNumber;
+  };
+
+  function formatarCPF(cpf) {
+    return cpf
+      .replace(/\D/g, "") // Remove tudo que não é dígito
+      .replace(/(\d{3})(\d)/, "$1.$2") // Adiciona ponto
+      .replace(/(\d{3})(\d)/, "$1.$2") // Adiciona ponto
+      .replace(/(\d{3})(\d{1,2})$/, "$1-$2"); // Adiciona hífen
+  }
+
+  function formatarCNPJ(cnpj) {
+    return cnpj
+      .replace(/\D/g, "") // Remove tudo que não é dígito
+      .replace(/(\d{2})(\d)/, "$1.$2") // Adiciona ponto
+      .replace(/(\d{3})(\d)/, "$1.$2") // Adiciona ponto
+      .replace(/(\d{3})(\d)/, "$1/$2") // Adiciona barra
+      .replace(/(\d{4})(\d{2})$/, "$1-$2"); // Adiciona hífen
+  }
+
+  const filteredClients = listaClientes.filter((client) =>
+    client.nome.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleClearSearch = () => {
+    setSearchTerm("");
   };
 
   if (!listaClientes.length) return null;
@@ -93,8 +125,18 @@ const Client = () => {
           <div class="text">Adicionar</div>
         </button>
       </div>
+      <div className="search-container w-75 mx-auto mb-3 wrapper">
+        <div class="icon"></div>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Pesquisar por nome"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
       <div>
-        <table className="table table-light w-75 mx-auto">
+        <table className="table table-light table-bordered table-hover w-75 mx-auto">
           <thead>
             <tr className="text-center">
               <th>Nome</th>
@@ -105,13 +147,17 @@ const Client = () => {
             </tr>
           </thead>
           <tbody>
-            {listaClientes.map((client) => (
+            {filteredClients.map((client) => (
               <tr key={client.id}>
                 <td>
                   <h4>{client.nome}</h4>
                 </td>
                 <td width={300}>
-                  <h4>{client.cpf_cnpj}</h4>
+                  <h4>
+                    {client.cpf_cnpj.length <= 11
+                      ? formatarCPF(client.cpf_cnpj)
+                      : formatarCNPJ(client.cpf_cnpj)}
+                  </h4>
                 </td>
                 <td width={250}>
                   <h4>{formatPhoneNumber(client.telefone)}</h4>

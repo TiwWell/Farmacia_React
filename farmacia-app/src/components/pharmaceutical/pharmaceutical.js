@@ -11,10 +11,10 @@ const Pharmaceutical = () => {
     const [isAddMode, setIsAddMode] = useState(false);
 
     useEffect(() => {
-        handleSelect();
+        listarFarmaceuticos();
     }, []);
 
-    const handleSelect = async () => {
+    const listarFarmaceuticos = async () => {
         try {
             const response = await axios.get(
                 "http://localhost:8080/api/listar-farmaceutico"
@@ -24,27 +24,27 @@ const Pharmaceutical = () => {
                 setListaPharmaceuticals(response.data.listaFarmaceuticos);
             } else {
                 toast.error(
-                    "Erro no carregamento da lista de faramceuticos. Verificar se a API está disponível.",
+                    "Erro no carregamento da lista de farmaceuticos. Verificar se a API está disponível.",
                     { position: "bottom-right" }
                 );
             }
         } catch (error) {
             console.error("Erro ao configurar a solicitação:", error);
             toast.error(
-                "Erro no carregamento da lista de faramceuticos. Verificar se a API está disponível.",
+                "Erro no carregamento da lista de farmaceuticos. Verificar se a API está disponível.",
                 { position: "botton-right" }
             );
         }
     };
 
 
-    const handleRevert = async (pharmaceuticalId) => {
+    const inverterFarmaceutico = async (idFarmaceutico) => {
         try {
             await axios.get(
-                `http://localhost:8080/api/inverter-status-farmaceutico/${pharmaceuticalId}`
+                `http://localhost:8080/api/inverter-status-farmaceutico/${idFarmaceutico}`
             );
             toast.success("Status do farmaceuticos invertido com sucesso");
-            handleSelect(); // Recarrega a lista de farmaceuticos após a inversão de status
+            listarFarmaceuticos(); // Recarrega a lista de farmaceuticos após a inversão de status
         } catch (error) {
             console.error("Erro ao inverter status do farmaceutico:", error);
             toast.error(
@@ -54,7 +54,7 @@ const Pharmaceutical = () => {
         }
     };
 
-    const openModal = (pharmaceutical, isAddMode) => {
+    const abrirModal = (pharmaceutical, isAddMode) => {
         setIsModalOpen(true);
         setPharmaceutical(pharmaceutical);
         setIsAddMode(isAddMode);
@@ -63,8 +63,8 @@ const Pharmaceutical = () => {
     const handleCallback = (childData) => {
         setIsModalOpen(childData);
     };
-    // Função para formatar CPF
-    function formatCPF(cpf) {
+    
+    function formatarCPF(cpf) {
         return cpf
             .replace(/\D/g, '') // Remove tudo que não é dígito
             .replace(/(\d{3})(\d)/, '$1.$2') // Adiciona ponto
@@ -72,8 +72,7 @@ const Pharmaceutical = () => {
             .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona hífen
     }
 
-    // Função para formatar CNPJ
-    function formatCNPJ(cnpj) {
+    function formatarCNPJ(cnpj) {
         return cnpj
             .replace(/\D/g, '') // Remove tudo que não é dígito
             .replace(/(\d{2})(\d)/, '$1.$2') // Adiciona ponto
@@ -90,7 +89,7 @@ const Pharmaceutical = () => {
                 <button
                     type="submit"
                     className="Btn custom-button"
-                    onClick={() => openModal()}
+                    onClick={() => abrirModal()}
                 >
                     <div class="sign">+</div>
 
@@ -115,8 +114,8 @@ const Pharmaceutical = () => {
                                     <td width={200}>
                                         <h4>
                                             {pharmaceutical.cpf_cnpj.length <= 11
-                                                ? formatCPF(pharmaceutical.cpf_cnpj)
-                                                : formatCNPJ(pharmaceutical.cpf_cnpj)}
+                                                ? formatarCPF(pharmaceutical.cpf_cnpj)
+                                                : formatarCNPJ(pharmaceutical.cpf_cnpj)}
                                         </h4>
                                     </td>
                                     <td width={200}>
@@ -126,20 +125,20 @@ const Pharmaceutical = () => {
                                         <button
                                             type="button"
                                             className="btn btn-secondary me-1"
-                                            onClick={() => openModal(pharmaceutical, false)}
+                                            onClick={() => abrirModal(pharmaceutical, false)}
                                         >
                                             Alterar
                                         </button>
                                         {pharmaceutical.status === 0 ? (
                                             <button type="submit"
                                                 className="btn btn-danger"
-                                                onClick={() => handleRevert(pharmaceutical.id)}>
+                                                onClick={() => inverterFarmaceutico(pharmaceutical.id)}>
                                                 Desativado
                                             </button>
                                         ) : (
                                             <button type="submit"
                                                 className="btn btn-success"
-                                                onClick={() => handleRevert(pharmaceutical.id)}>
+                                                onClick={() => inverterFarmaceutico(pharmaceutical.id)}>
                                                 Ativado
                                             </button>
                                         )}

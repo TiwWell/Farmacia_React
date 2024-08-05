@@ -8,8 +8,7 @@ const ClientModal = (props) => {
   const [client, setClient] = useState({ ...props.client });
   const [isModalOpen, setIsModalOpen] = useState(props.isModalOpen);
   const [isAddMode, setIsAddMode] = useState(props.isAddMode);
-  const [maskcpfCnpj, setmaskcpfCnpj] = useState("99999999999999");
-  
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setClient({ ...client, [name]: value });
@@ -18,46 +17,50 @@ const ClientModal = (props) => {
   const handleCpfCnpjChange = (event) => {
     const { name, value } = event.target;
     setClient({ ...client, [name]: value });
-
   };
 
-
-  const handleAction = () => {
+  const handleAction = (event) => {
+    event.preventDefault(); // Prevent the default form submission
     if (isAddMode) {
-      handleCreate();
+      adicionarCliente();
     } else {
-      handleUpdate(client);
+      atualizarCliente(client);
     }
   };
 
-  const closeModal = () => {
+  const fecharModal = () => {
     setClient(null);
     setIsModalOpen(false);
     props.parentCallback(false);
   };
 
-  const handleUpdate = (client) => {
+  const atualizarCliente = async (clienteAtualizado) => {
     try {
-      // Montar o objeto cliente com os dados atualizados do estado do componente
-      const clienteAtualizado = { ...client };
-      // Enviar uma requisição POST para a API com os dados do cliente atualizados
-      axios
-        .put(`http://localhost:8080/api/atualizar-cliente`, clienteAtualizado)
-        .then((response) => {
-          toast.success("Cliente atualizado com sucesso!");
-        })
-        .catch((error) => {
-          toast.error("Erro ao atualizar cliente:", error);
-        });
+      const response = await axios.put(
+        "http://localhost:8080/api/atualizar-cliente", clienteAtualizado
+      );
+
+      if (response.data.codRetorno === 201) {
+        toast.success("Cliente atualizado com sucesso!");
+        // Recarregar a página após 1 segundo
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      } else {
+        toast.error(
+          "Erro ao atualizar cliente:",
+          { position: "bottom-right" }
+        );
+      }
     } catch (error) {
-      // Tratar erros de requisição
-      toast.error("Erro ao atualizar cliente:", error);
-      // Exibir uma mensagem de erro ao usuário
-      toast.error("Erro ao atualizar cliente. Por favor, tente novamente.");
+      toast.error(
+        "Erro ao atualizar cliente. Por favor, tente novamente.",
+        { position: "bottom-right" }
+      );
     }
   };
 
-  const handleCreate = () => {
+  const adicionarCliente = () => {
     try {
       // Montar o objeto cliente com os dados atualizados do estado do componente
       const novoCliente = { ...client };
@@ -79,11 +82,31 @@ const ClientModal = (props) => {
     }
   };
 
+  const cpfCnpjMask = (value) => {
+    const cleanedValue = value.toString().replace(/\D/g, "");
+    if (cleanedValue.length <= 11) {
+      return value
+        .replace(/\D/g, "") // substitui qualquer caracter que nao seja numero por nada
+        .replace(/(\d{3})(\d)/, "$1.$2") // captura 2 grupos de numero o primeiro de 3 e o segundo de 1, apos capturar o primeiro grupo ele adiciona um ponto antes do segundo grupo de numero
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d{1,2})/, "$1-$2")
+        .replace(/(-\d{2})\d+?$/, "$1"); // captura 2 numeros seguidos de um traço e não deixa ser digitado mais nada
+    } else {
+      return value
+        .replace(/\D+/g, "") // não deixa ser digitado nenhuma letra
+        .replace(/(\d{2})(\d)/, "$1.$2") // captura 2 grupos de número o primeiro com 2 digitos e o segundo de com 3 digitos, apos capturar o primeiro grupo ele adiciona um ponto antes do segundo grupo de número
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d)/, "$1/$2") // captura 2 grupos de número o primeiro e o segundo com 3 digitos, separados por /
+        .replace(/(\d{4})(\d)/, "$1-$2")
+        .replace(/(-\d{2})\d+?$/, "$1"); // captura os dois últimos 2 números, com um - antes dos dois números
+    }
+  };
+
   return (
     <Modal
       appElement={document.getElementById("app")}
       isOpen={isModalOpen}
-      onRequestClose={closeModal}
+      onRequestClose={fecharModal}
       contentLabel={isAddMode ? "Adicionar Cliente" : "Alterar Cliente"}
       className="custom-modal"
     >
@@ -92,12 +115,12 @@ const ClientModal = (props) => {
           type="button"
           className="btn-close"
           aria-label="Fechar"
-          onClick={closeModal}
+          onClick={fecharModal}
         />
         <h2 className="text-center">
           {isAddMode ? "Novo Cliente" : "Alterar Cliente"}
         </h2>
-        <form>
+        <form onSubmit={handleAction}>
           <div className="form-group">
             <div className="col-md-6 mb-3">
               <label>Nome</label>
@@ -106,7 +129,7 @@ const ClientModal = (props) => {
                 className="form-control"
                 name="nome"
                 maxLength={100}
-                value={client.nome}
+                value={client.nome || ""}
                 onChange={handleInputChange}
                 placeholder="Nome completo"
               />
@@ -114,22 +137,21 @@ const ClientModal = (props) => {
             <div className="form-group col-md-4 mb-3">
               <label>CPF ou CNPJ</label>
               <InputMask
-                mask={maskcpfCnpj}
-                value={client.cpf_cnpj}
-                onChange={handleCpfCnpjChange}                
                 type="text"
                 className="form-control"
+                value={cpfCnpjMask(client.cpf_cnpj)}
+                onChange={handleCpfCnpjChange}
                 name="cpf_cnpj"
               />
             </div>
             <div className="form-group col-md-4 mb-3">
               <label>Telefone</label>
               <InputMask
-                mask="(99) 99999-9999"
-                value={client.telefone}
-                onChange={handleInputChange}
                 type="text"
                 className="form-control"
+                value={client.telefone || ""}
+                mask="(99) 99999-9999"
+                onChange={handleInputChange}
                 name="telefone"
               />
             </div>
@@ -138,9 +160,9 @@ const ClientModal = (props) => {
               <input
                 type="text"
                 className="form-control"
+                value={client.endereco || ""}
                 name="endereco"
                 maxLength={200}
-                value={client.endereco}
                 onChange={handleInputChange}
               />
             </div>
