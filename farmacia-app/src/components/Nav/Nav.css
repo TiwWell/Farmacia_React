@@ -3,21 +3,16 @@
     margin: 0;
 }
 
-
 .nav-image {
     width: 15%;
-    height: 10%;
+    height: auto;
     object-fit: cover;
-    /* Garante que a imagem cubra totalmente a área, possivelmente cortando partes */
     display: block;
-    /* Remove o espaçamento inferior da imagem */
 }
 
 nav {
     position: relative;
-    /* Garante que o z-index funcione corretamente */
     background-color: #051590;
-    /* Torna o fundo do nav um pouco transparente, se desejar */
 }
 
 nav a {
@@ -41,4 +36,26 @@ nav a {
 
 ul p {
     color: white;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .nav-image {
+        width: 30%;
+        height: auto;
+    }
+
+    .navbar-nav .nav-link {
+        margin-bottom: 10px;
+    }
+
+    .navbar-nav {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav {
+        text-align: center;
+        margin: 10px 0;
+    }
 }

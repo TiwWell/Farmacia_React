@@ -7,9 +7,9 @@ function Nav() {
     <>
       <div className="App">
         <header>
-          <nav className="navbar navbar-expand-lg">
+          <nav className="navbar navbar-expand-lg custom-navbar">
             <div className="container-fluid">
-            <img src={farmaciaNav} alt="Descrição da imagem" className="nav-image" />
+              <img src={farmaciaNav} alt="Descrição da imagem" className="nav-image" />
               <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
               </button>
@@ -30,7 +30,7 @@ function Nav() {
                 </ul>
                 <ul className="navbar-nav">
                   <p className="nav">📱 Faça seu pedido: (11) 96576-7416</p>
-              </ul>
+                </ul>
               </div>
             </div>
           </nav>
@@ -42,3 +42,4 @@ function Nav() {
 }
 
 export default Nav;
+  

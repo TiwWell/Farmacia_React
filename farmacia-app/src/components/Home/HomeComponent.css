@@ -1,32 +1,58 @@
 .home-component {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  flex-wrap: wrap; /* Allows wrapping in smaller screens */
+}
+
+.text-side {
+  flex: 1;
+  padding: 20px;
+  background-color: rgb(102,147,211);
+  border-top-left-radius: 50px 50px;
+  border-bottom-left-radius: 50px 50px;
+  text-align: center; /* Center the text */
+}
+
+.image-side {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* Add space between text and image on smaller screens */
+}
+
+.image-side img {
+  max-width: 100%;
+  width: 100%; /* Ensure the image scales down in smaller screens */
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Media query for screens smaller than 768px */
+@media (max-width: 768px) {
+  .home-component {
+    flex-direction: column;
   }
-  
-  .text-side {
-    flex: 1;
-    padding: 20px;
-    background-color: rgb(102,147,211);
-    border-top-left-radius: 50px 50px;
-    border-bottom-left-radius: 50px 50px;
-  }
-  
+
+  .text-side,
   .image-side {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .image-side img {
+    flex: 1 1 100%;
     max-width: 100%;
-    min-width: 500px;
-    min-height: 350px;
-    height: auto;
-    border-radius: 10px; /* Adiciona bordas arredondadas à imagem */
   }
-  .p{
-    color: black;
+
+  .text-side {
+    border-radius: 50px; /* Round corners for smaller screens */
+    margin-bottom: 20px; /* Space between elements */
   }
+
+  .image-side img {
+    min-width: 100%; /* Ensure the image takes full width */
+    min-height: auto; /* Adjust height */
+  }
+}
+
+p {
+  color: black;
+}

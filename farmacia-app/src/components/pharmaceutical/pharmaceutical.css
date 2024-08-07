@@ -1,69 +1,114 @@
+/* Estilo base */
 .custom-button {
-    position: fixed; /* Posiciona o botão de forma fixa na tela */
-    bottom: 20px; /* Espaço do fundo para o botão */
-    right: 20px; /* Espaço da direita para o botão */
-    z-index: 1000; /* Garante que o botão fique acima dos outros elementos */
+  position: fixed; 
+  bottom: 20px; 
+  right: 20px; 
+  z-index: 1000; 
 }
 .Btn {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 45px;
-    height: 45px;
-    border-radius: calc(45px/2);
-    border: none;
-    cursor: pointer;
-    overflow: hidden;
-    transition-duration: .3s;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
-    background: linear-gradient(144deg,#6693d3,#6693d3, 50%,#6693d3);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 45px;
+  height: 45px;
+  border-radius: calc(45px/2);
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition-duration: .3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+  background: linear-gradient(144deg,#6693d3,#6693d3, 50%,#6693d3);
+}
+/* Sinal de mais */
+.sign {
+  width: 100%;
+  font-size: 2.5em;
+  color: black;
+  transition-duration: .3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 10px;
+}
+/* Texto */
+.text {
+  right: 0%;
+  width: 0%;
+  opacity: 0;
+  color: black;
+  font-size: 1.5em;
+  font-weight: 500;
+  transition-duration: .3s;
+  margin-bottom: 5px;
+}
+/* Efeito hover no botão */
+.Btn:hover {
+  width: 200px;
+  transition-duration: .3s;
+}
+.Btn:hover .sign {
+  width: 30%;
+  transition-duration: .3s;
+  padding-left: 15px;
+}
+/* Efeito hover no texto do botão */
+.Btn:hover .text {
+  opacity: 1;
+  width: 70%;
+  transition-duration: .3s;
+  padding-right: 15px;
+}
+/* Efeito de clique no botão */
+.Btn:active {
+  transform: translate(2px ,2px);
+}
+
+.search-container {
+  margin-top: 10px;
+}
+
+.title {
+  text-align: center;
+}
+
+/* Media Queries para Responsividade */
+/* Estilos para telas menores que 768px */
+@media (max-width: 768px) {
+  .custom-button {
+    bottom: 10px;
+    right: 10px;
   }
-  
-  
-  /* plus sign */
+  .Btn {
+    width: 35px;
+    height: 35px;
+    border-radius: calc(35px/2);
+  }
   .sign {
-    width: 100%;
-    font-size: 2.5em;
-    color: black;
-    transition-duration: .3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin-bottom: 10px;
+    font-size: 2em;
   }
-  /* text */
   .text {
-    right: 0%;
-    width: 0%;
-    opacity: 0;
-    color: black;
-    font-size: 1.5em;
-    font-weight: 500;
-    transition-duration: .3s;
-    margin-bottom: 5px;
+    font-size: 1em;
   }
-  /* hover effect on button width */
   .Btn:hover {
-    width: 200px;
-    transition-duration: .3s;
+    width: 150px;
   }
-  
   .Btn:hover .sign {
-    width: 30%;
-    transition-duration: .3s;
-    padding-left: 15px;
+    width: 40%;
+    padding-left: 10px;
   }
-  /* hover effect button's text */
   .Btn:hover .text {
-    opacity: 1;
-    width: 70%;
-    transition-duration: .3s;
-    padding-right: 15px;
+    width: 60%;
+    padding-right: 10px;
   }
-  /* button click effect*/
-  .Btn:active {
-    transform: translate(2px ,2px);
+  .search-container {
+    width: 90%;
+    margin: 10px auto;
   }
-
-
+  .table {
+    width: 100%;
+  }
+  .table th, .table td {
+    font-size: 0.8em;
+  }
+}

@@ -1,20 +1,20 @@
 import './HomeComponent.css';
 
-
-function HomeComponent({titulo, descricao, imagemUrl, imagemAlt}) {
-    return (
-      <>
-       <div className="home-component">
-        <div className="text-side">
-          <h1>{titulo}</h1>
-          <p>{descricao}</p>
-        </div>
-        <div className="image-side">
-          <img src={imagemUrl} alt="Teste" />
-        </div>
+function HomeComponent({ titulo, descricao, imagemUrl, imagemAlt }) {
+  return (
+    <div className="home-component">
+      <div className="text-side">
+        <h1>{titulo}</h1>
+        <p>{descricao}</p>
       </div>
-      </>
-    );
-  }
+      <div className="image-side">
+        <img src={imagemUrl} alt={imagemAlt} />
+      </div>
+    </div>
+  );
+}
+
+export default HomeComponent;
+
+
   
-  export default HomeComponent;

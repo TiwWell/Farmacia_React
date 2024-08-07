@@ -10,6 +10,7 @@ const Medicine = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [listaMedicines, setListaMedicines] = useState([]);
   const [isAddMode, setIsAddMode] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     handleSelect();
@@ -63,11 +64,24 @@ const Medicine = () => {
     setIsModalOpen(childData);
   };
 
+  const filteredMedicine = listaMedicines
+    .sort((a, b) => a.id - b.id)
+    .filter((medicine) =>
+      medicine.nome.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+  const handleClearSearch = () => {
+  setSearchTerm("");
+  };
+
   if (!listaMedicines.length) return null;
    const sortedMedicines = [...listaMedicines].sort((a, b) => a.id - b.id);
 
   return (
     <>
+      <div className="title container w-75 mx-auto mb-3">
+        <h1>Lista de Remédios</h1>
+      </div>
       <div>
         <button
           type="submit"
@@ -79,8 +93,18 @@ const Medicine = () => {
           <div class="text">Adicionar</div>
         </button>
       </div>
+      <div className="search-container w-75 mx-auto mb-3 wrapper">
+        <div class="icon"></div>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Pesquisar por nome"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
       <div>
-        <table className="table table-light w-75 mx-auto">
+        <table className="table table-light table-bordered table-hover w-75 mx-auto">
           <thead>
             <tr className="text-center">
               {/* <th>Imagem</th> Voltará na 2.0 com conversão de imagens em bytes para o banco e conversão da imagem para o front*/}
@@ -92,9 +116,14 @@ const Medicine = () => {
             </tr>
           </thead>
           <tbody>
-            {sortedMedicines.map((medicine) => (
-              <tr className="text-center" key={medicine.id}>
-
+            {filteredMedicine.map((medicine) => (
+              <tr key={medicine.id}>
+                <td>
+                  <h4>{medicine.id}</h4>
+                </td>
+                <td>
+                  <h4>{medicine.nome}</h4>
+                </td>
                 {/* <td width={200}>
                   <img
                   width={200}
@@ -103,12 +132,6 @@ const Medicine = () => {
                   alt={medicine.nome}
                   />
                   </td> Voltará na 2.0 com conversão de imagens em bytes para o banco e conversão da imagem para o front */}
-                <td width={200}>
-                  <h4>{medicine.id}</h4>
-                </td>
-                <td width={200}>
-                  <h4>{medicine.nome}</h4>
-                </td>
                 <td width={200}>
                   <h4>{medicine.valor}</h4>
                 </td>

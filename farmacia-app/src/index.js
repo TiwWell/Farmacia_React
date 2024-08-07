@@ -12,6 +12,7 @@ import Nav from './components/Nav/Nav';
 import Home from './pages/HomePage';
 import PharmaceuticalPage from './pages/PharmaceuticalPage';
 
+
 export default function App() {
 
     return (
@@ -34,5 +35,6 @@ const root = createRoot(document.getElementById('root'));
 root.render(
     <App />
 );
+
 
 reportWebVitals();
