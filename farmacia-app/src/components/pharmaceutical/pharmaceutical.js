@@ -119,7 +119,7 @@ const Pharmaceutical = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <div>
+      <div className="table-container w-75 mx-auto">
         <table className="table table-light table-bordered table-hover w-75 mx-auto">
           <thead>
             <tr className="text-center">
@@ -149,31 +149,35 @@ const Pharmaceutical = () => {
                 <td width={200}>
                   <h4>{pharmaceutical.crf}</h4>
                 </td>
-                <td width={200}>
-                  <button
-                    type="button"
-                    className="btn btn-secondary me-1"
-                    onClick={() => abrirModal(pharmaceutical, false)}
-                  >
-                    Alterar
-                  </button>
-                  {pharmaceutical.status === 0 ? (
+                <td className="action-td" width={200}>
+                  <div className="edit-button">
                     <button
-                      type="submit"
-                      className="btn btn-danger"
-                      onClick={() => inverterFarmaceutico(pharmaceutical.id)}
+                      type="button"
+                      className="btn btn-secondary button-size"
+                      onClick={() => abrirModal(pharmaceutical, false)}
                     >
-                      Desativado
+                      Alterar
                     </button>
-                  ) : (
-                    <button
-                      type="submit"
-                      className="btn btn-success"
-                      onClick={() => inverterFarmaceutico(pharmaceutical.id)}
-                    >
-                      Ativado
-                    </button>
-                  )}
+                  </div>
+                  <div className="invert-button">
+                    {pharmaceutical.status === 0 ? (
+                      <button
+                        type="submit"
+                        className="btn btn-danger button-size"
+                        onClick={() => inverterFarmaceutico(pharmaceutical.id)}
+                      >
+                        Desativado
+                      </button>
+                    ) : (
+                      <button
+                        type="submit"
+                        className="btn btn-success"
+                        onClick={() => inverterFarmaceutico(pharmaceutical.id)}
+                      >
+                        Ativado
+                      </button>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}

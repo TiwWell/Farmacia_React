@@ -71,11 +71,11 @@ const Medicine = () => {
     );
 
   const handleClearSearch = () => {
-  setSearchTerm("");
+    setSearchTerm("");
   };
 
   if (!listaMedicines.length) return null;
-   const sortedMedicines = [...listaMedicines].sort((a, b) => a.id - b.id);
+  const sortedMedicines = [...listaMedicines].sort((a, b) => a.id - b.id);
 
   return (
     <>
@@ -103,7 +103,7 @@ const Medicine = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <div>
+      <div className="table-container w-75 mx-auto">
         <table className="table table-light table-bordered table-hover w-75 mx-auto">
           <thead>
             <tr className="text-center">
@@ -138,32 +138,36 @@ const Medicine = () => {
                 <td width={200}>
                   <h4>{medicine.quantidade}</h4>
                 </td>
+                {/* Descomentar os botões quando necessário */}
                 <td width={200}>
-                  {/* Descomentar os botões quando necessário */}
-                  <button
-                    type="button"
-                    className="btn btn-secondary me-1"
-                    onClick={() => openModal(medicine, false)}
-                  >
-                    Alterar
-                  </button>
-                  {medicine.status === 0 ? (
+                  <div className="edit-button button-size">
                     <button
-                      type="submit"
-                      className="btn btn-danger"
-                      onClick={() => handleRevert(medicine.id)}
+                      type="button"
+                      className="btn btn-secondary me-1"
+                      onClick={() => openModal(medicine, false)}
                     >
-                      Desativado
+                      Alterar
                     </button>
-                  ) : (
-                    <button
-                      type="submit"
-                      className="btn btn-success"
-                      onClick={() => handleRevert(medicine.id)}
-                    >
-                      Ativado
-                    </button>
-                  )}
+                  </div>
+                  <div className="invert-button button-size">
+                    {medicine.status === 0 ? (
+                      <button
+                        type="submit"
+                        className="btn btn-danger"
+                        onClick={() => handleRevert(medicine.id)}
+                      >
+                        Desativado
+                      </button>
+                    ) : (
+                      <button
+                        type="submit"
+                        className="btn btn-success"
+                        onClick={() => handleRevert(medicine.id)}
+                      >
+                        Ativado
+                      </button>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}

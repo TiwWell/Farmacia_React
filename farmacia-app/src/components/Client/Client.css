@@ -123,3 +123,62 @@
 .title{ 
   text-align: center;
 }
+
+/* Media Queries para Responsividade */
+/* Estilos para telas menores que 768px */
+@media (max-width: 768px) {
+  .custom-button {
+    bottom: 10px;
+    right: 10px;
+  }
+  .Btn {
+    width: 35px;
+    height: 35px;
+    border-radius: calc(35px/2);
+  }
+  .sign {
+    font-size: 2em;
+  }
+  .text {
+    font-size: 1em;
+  }
+  .Btn:hover {
+    width: 150px;
+  }
+  .Btn:hover .sign {
+    width: 40%;
+    padding-left: 10px;
+  }
+  .Btn:hover .text {
+    width: 60%;
+    padding-right: 10px;
+  }
+  .search-container {
+    width: 90%;
+    margin: 10px auto;
+  }
+  .table {
+    width: 100%;
+  }
+  .table th, .table td {
+    font-size: 0.8em;
+  }
+
+  .edit-button{
+    margin: 1%;
+  }
+  
+  .invert-button{
+    margin: 1%;
+  }
+  
+  .action-td {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+  }
+}
