@@ -19,7 +19,7 @@ const Medicine = () => {
   const handleSelect = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/api/listar-remedio"
+        `${process.env.REACT_APP_AWS_BACKEND_URL}/api/listar-remedio`
       );
       if (response.data.codRetorno === 200) {
         setListaMedicines(response.data.listaRemedios);
@@ -41,7 +41,7 @@ const Medicine = () => {
   const handleRevert = async (medicineId) => {
     try {
       await axios.get(
-        `http://localhost:8080/api/inverter-status-remedio/${medicineId}`
+        `${process.env.REACT_APP_AWS_BACKEND_URL}/api/inverter-status-remedio/${medicineId}`
       );
       toast.success("Status do remedio invertido com sucesso");
       handleSelect(); // Recarrega a lista de remédios após a inversão de status

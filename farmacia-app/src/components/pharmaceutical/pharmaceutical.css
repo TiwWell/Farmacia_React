@@ -6,10 +6,19 @@
 /* Estilo base */
 .custom-button {
   position: fixed;
-  bottom: 20px;
+  bottom: 20;
   right: 20px;
   z-index: 1000;
 }
+
+/* Estilo base */
+.custom-button-empty {
+  position: fixed;
+  bottom: 125px;
+  right: 20px;
+  z-index: 1000;
+}
+
 .Btn {
   display: flex;
   align-items: center;

@@ -33,7 +33,7 @@ const MedicineModal = (props) => {
       const remedioAtualizado = {...medicine};
       // Enviar uma requisição POST para a API com os dados do remedio atualizados
       axios
-        .put(`http://localhost:8080/api/atualizar-remedio`, remedioAtualizado)
+        .put(`${process.env.REACT_APP_AWS_BACKEND_URL}/api/atualizar-remedio`, remedioAtualizado)
         .then((response) => {
           toast.success("Remedio atualizado com sucesso!");
         })
@@ -55,7 +55,7 @@ const MedicineModal = (props) => {
 
       // Enviar uma requisição POST para a API com os dados do remedio atualizados
       axios
-        .post(`http://localhost:8080/api/adicionar-remedio`, novoRemedio)
+        .post(`${process.env.REACT_APP_AWS_BACKEND_URL}/api/adicionar-remedio`, novoRemedio)
         .then((response) => {
           toast.success("Remedio adicionado com sucesso!");
         })

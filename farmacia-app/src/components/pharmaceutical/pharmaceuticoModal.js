@@ -33,7 +33,7 @@ const PharmaceuticalModal = (props) => {
       const pharmaceuticalAtualizado = {...pharmaceutical};
       // Enviar uma requisição POST para a API com os dados do farmaceutico atualizados
       axios
-        .put(`http://localhost:8080/api/atualizar-farmaceutico`, pharmaceuticalAtualizado)
+        .put(`${process.env.REACT_APP_AWS_BACKEND_URL}/api/atualizar-farmaceutico`, pharmaceuticalAtualizado)
         .then((response) => {
           toast.success("Farmaceutico atualizado com sucesso!");
         })
@@ -55,7 +55,7 @@ const PharmaceuticalModal = (props) => {
 
       // Enviar uma requisição POST para a API com os dados do farmaceutico atualizados
       axios
-        .post(`http://localhost:8080/api/adicionar-farmaceutico`, novoPharmaceutical)
+        .post(`${process.env.REACT_APP_AWS_BACKEND_URL}/api/adicionar-farmaceutico`, novoPharmaceutical)
         .then((response) => {
           toast.success("Farmaceutico adicionado com sucesso!");
         })

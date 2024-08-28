@@ -18,7 +18,7 @@ const Pharmaceutical = () => {
   const listarFarmaceuticos = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/api/listar-farmaceutico"
+        `${process.env.REACT_APP_AWS_BACKEND_URL}/api/listar-farmaceutico`
       );
       if (response.data.codRetorno === 200) {
         console.log(response.data);
@@ -41,7 +41,7 @@ const Pharmaceutical = () => {
   const inverterFarmaceutico = async (idFarmaceutico) => {
     try {
       await axios.get(
-        `http://localhost:8080/api/inverter-status-farmaceutico/${idFarmaceutico}`
+        `${process.env.REACT_APP_AWS_BACKEND_URL}/api/inverter-status-farmaceutico/${idFarmaceutico}`
       );
       toast.success("Status do farmaceuticos invertido com sucesso");
       listarFarmaceuticos(); // Recarrega a lista de farmaceuticos após a inversão de status
@@ -91,7 +91,22 @@ const Pharmaceutical = () => {
     setSearchTerm("");
   };
 
-  if (!listaPharmaceuticals.length) return null;
+  if (!listaPharmaceuticals.length) return (
+      <>
+        <div>
+          <button
+            type="submit"
+            className="Btn custom-button-empty"
+            onClick={() => abrirModal()}
+            setIsAddMode={true}
+          >
+            <div className="sign">+</div>
+
+            <div className="text">Adicionar</div>
+          </button>
+        </div>
+      </>
+  );
 
   return (
     <>
