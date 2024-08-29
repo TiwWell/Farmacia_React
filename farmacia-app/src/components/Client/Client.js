@@ -10,6 +10,7 @@ const Client = () => {
   const [listaClientes, setListaClientes] = useState([]);
   const [isAddMode, setIsAddMode] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const AWS_URL = process.env.REACT_APP_AWS_BACKEND_URL;
 
   useEffect(() => {
     handleSelect();
@@ -17,7 +18,9 @@ const Client = () => {
 
   const handleSelect = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_AWS_BACKEND_URL}/api/lista-cliente`);
+      console.log("Chamando endpoint: /api/lista-cliente")
+      console.log("URL: " + AWS_URL)
+      const response = await axios.get(`${AWS_URL}/api/lista-cliente`);
       if (response.data.codRetorno === 200) {
         setListaClientes(response.data.listaClientes);
       } else {
@@ -38,7 +41,7 @@ const Client = () => {
   const handleRevert = async (clientId) => {
     try {
       await axios.get(
-        `${process.env.REACT_APP_AWS_BACKEND_URL}/api/inverter-status-clientes/${clientId}`
+        `${AWS_URL}/api/inverter-status-clientes/${clientId}`
       );
       toast.success("Status do clientes invertido com sucesso");
       handleSelect(); // Recarrega a lista de clientes após a inversão de status
