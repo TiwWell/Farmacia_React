@@ -9,6 +9,8 @@ const ClientModal = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(props.isModalOpen);
   const [isAddMode, setIsAddMode] = useState(props.isAddMode);
   const [errors, setErrors] = useState({});
+  const AWS_URL = process.env.REACT_APP_AWS_BACKEND_URL;
+  
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -56,9 +58,10 @@ const ClientModal = (props) => {
   };
 
   const atualizarCliente = async (clienteAtualizado) => {
+    
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_AWS_BACKEND_URL}/api/atualizar-cliente`, clienteAtualizado
+        `${AWS_URL}/api/atualizar-cliente`, clienteAtualizado
       );
 
       if (response.data.codRetorno === 201) {
@@ -83,7 +86,7 @@ const ClientModal = (props) => {
 
   const adicionarCliente = async () => {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_AWS_BACKEND_URL}/api/adicionar-cliente`, client);
+      const response = await axios.post(`${AWS_URL}/api/adicionar-cliente`, client);
       toast.success("Cliente adicionado com sucesso!");
       setTimeout(() => {
         window.location.reload();

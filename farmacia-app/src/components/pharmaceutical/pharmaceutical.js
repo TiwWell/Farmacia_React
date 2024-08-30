@@ -10,6 +10,7 @@ const Pharmaceutical = () => {
   const [listaPharmaceuticals, setListaPharmaceuticals] = useState([]);
   const [isAddMode, setIsAddMode] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const AWS_URL = process.env.REACT_APP_AWS_BACKEND_URL;
 
   useEffect(() => {
     listarFarmaceuticos();
@@ -18,7 +19,7 @@ const Pharmaceutical = () => {
   const listarFarmaceuticos = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_AWS_BACKEND_URL}/api/listar-farmaceutico`
+        `${AWS_URL}/api/listar-farmaceutico`
       );
       if (response.data.codRetorno === 200) {
         console.log(response.data);
@@ -41,7 +42,7 @@ const Pharmaceutical = () => {
   const inverterFarmaceutico = async (idFarmaceutico) => {
     try {
       await axios.get(
-        `${process.env.REACT_APP_AWS_BACKEND_URL}/api/inverter-status-farmaceutico/${idFarmaceutico}`
+        `${AWS_URL}/api/inverter-status-farmaceutico/${idFarmaceutico}`
       );
       toast.success("Status do farmaceuticos invertido com sucesso");
       listarFarmaceuticos(); // Recarrega a lista de farmaceuticos após a inversão de status
