@@ -18,8 +18,6 @@ const Client = () => {
 
   const handleSelect = async () => {
     try {
-      console.log("Chamando endpoint: /api/lista-cliente")
-      console.log("URL: " + AWS_URL)
       const response = await axios.get(`${AWS_URL}/api/lista-cliente`);
       if (response.data.codRetorno === 200) {
         setListaClientes(response.data.listaClientes);
