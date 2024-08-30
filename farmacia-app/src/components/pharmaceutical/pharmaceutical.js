@@ -55,7 +55,7 @@ const Pharmaceutical = () => {
   };
 
   const abrirModal = (pharmaceutical, isAddMode) => {
-    setIsModalOpen(true);
+        setIsModalOpen(true);
     setPharmaceutical(pharmaceutical);
     setIsAddMode(isAddMode);
   };
@@ -97,7 +97,7 @@ const Pharmaceutical = () => {
           <button
             type="submit"
             className="Btn custom-button-empty"
-            onClick={() => abrirModal()}
+            onClick={() => abrirModal(null, true)} // Passa null para pharmaceutical e true para isAddMode
             setIsAddMode={true}
           >
             <div className="sign">+</div>
