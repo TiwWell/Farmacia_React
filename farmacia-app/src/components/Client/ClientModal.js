@@ -10,7 +10,6 @@ const ClientModal = (props) => {
   const [isAddMode, setIsAddMode] = useState(props.isAddMode);
   const [errors, setErrors] = useState({});
   const AWS_URL = process.env.REACT_APP_AWS_BACKEND_URL;
-  
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -25,14 +24,14 @@ const ClientModal = (props) => {
   const validateFields = () => {
     let validationErrors = {};
     if (!client.nome) validationErrors.nome = "Nome é obrigatório";
-    if (!client.cpf_cnpj) validationErrors.cpf_cnpj = "CPF ou CNPJ é obrigatório";
+    if (!client.cpf_cnpj)
+      validationErrors.cpf_cnpj = "CPF ou CNPJ é obrigatório";
     if (!client.telefone) validationErrors.telefone = "Telefone é obrigatório";
     if (!client.endereco) validationErrors.endereco = "Endereço é obrigatório";
     return validationErrors;
   };
 
-  const handleAction = async (event) => {
-
+  const handleAction = async (event) => { //Metodo que determina se vai adicionar ou alterar.
     event.preventDefault(); // Prevent the default form submission
     const validationErrors = validateFields();
     if (Object.keys(validationErrors).length > 0) {
@@ -58,10 +57,10 @@ const ClientModal = (props) => {
   };
 
   const atualizarCliente = async (clienteAtualizado) => {
-    
     try {
       const response = await axios.put(
-        `${AWS_URL}/api/atualizar-cliente`, clienteAtualizado
+        `${AWS_URL}/api/atualizar-cliente`,
+        clienteAtualizado
       );
 
       if (response.data.codRetorno === 201) {
@@ -71,22 +70,21 @@ const ClientModal = (props) => {
           window.location.reload();
         }, 1000);
       } else {
-        toast.error(
-          "Erro ao atualizar cliente:",
-          { position: "bottom-right" }
-        );
+        toast.error("Erro ao atualizar cliente:", { position: "bottom-right" });
       }
     } catch (error) {
-      toast.error(
-        "Erro ao atualizar cliente. Por favor, tente novamente.",
-        { position: "bottom-right" }
-      );
+      toast.error("Erro ao atualizar cliente. Por favor, tente novamente.", {
+        position: "bottom-right",
+      });
     }
   };
 
   const adicionarCliente = async () => {
     try {
-      const response = await axios.post(`${AWS_URL}/api/adicionar-cliente`, client);
+      const response = await axios.post(
+        `${AWS_URL}/api/adicionar-cliente`,
+        client
+      );
       toast.success("Cliente adicionado com sucesso!");
       setTimeout(() => {
         window.location.reload();
@@ -119,93 +117,104 @@ const ClientModal = (props) => {
   };
 
   return (
-<Modal
-  appElement={document.getElementById("app")}
-  isOpen={isModalOpen}
-  onRequestClose={fecharModal}
-  contentLabel={isAddMode ? "Adicionar Cliente" : "Alterar Cliente"}
-  className="custom-modal"
->
-  <div>
-    <button
-      type="button"
-      className="btn-close"
-      aria-label="Fechar"
-      onClick={fecharModal}
-    />
-    <h2 className="text-center">
-      {isAddMode ? "Novo Cliente" : "Alterar Cliente"}
-    </h2>
-    <form onSubmit={handleAction} autoComplete="off">
-      <div className="form-group">
-        <div className="col-md-6 mb-3">
-          <label>Nome</label>
-          <input
-            type="text"
-            className={`form-control ${errors.nome ? 'is-invalid' : ''}`}
-            name="nome"
-            maxLength={100}
-            value={client.nome || ""}
-            onChange={handleInputChange}
-            placeholder="Nome completo"
-            autoComplete="off"
-          />
-          {errors.nome && <div className="invalid-feedback">{errors.nome}</div>}
-        </div>
-        <div className="form-group col-md-4 mb-3">
-          <label>CPF ou CNPJ</label>
-          <InputMask
-            type="text"
-            className={`form-control ${errors.cpf_cnpj ? 'is-invalid' : ''}`}
-            value={cpfCnpjMask(client.cpf_cnpj)}
-            onChange={handleCpfCnpjChange}
-            name="cpf_cnpj"
-            placeholder="222.333.444-05"
-            autoComplete="off"
-          />
-          {errors.cpf_cnpj && <div className="invalid-feedback">{errors.cpf_cnpj}</div>}
-        </div>
-        <div className="form-group col-md-4 mb-3">
-          <label>Telefone</label>
-          <InputMask
-            type="text"
-            className={`form-control ${errors.telefone ? 'is-invalid' : ''}`}
-            value={client.telefone || ""}
-            mask="(99) 99999-9999"
-            onChange={handleInputChange}
-            name="telefone"
-            placeholder="(11)96576-7416"
-            autoComplete="off"
-          />
-          {errors.telefone && <div className="invalid-feedback">{errors.telefone}</div>}
-        </div>
-        <div className="form-group col-md-6 mb-3">
-          <label>Endereço</label>
-          <input
-            type="text"
-            className={`form-control ${errors.endereco ? 'is-invalid' : ''}`}
-            value={client.endereco || ""}
-            name="endereco"
-            maxLength={200}
-            onChange={handleInputChange}
-            placeholder="Rua dos Imigrantes, 15"
-            autoComplete="off"
-          />
-          {errors.endereco && <div className="invalid-feedback">{errors.endereco}</div>}
-        </div>
-        <div className="text-center">
-          <button
-            type="submit"
-            className="btn btn-primary"
-          >
-            {isAddMode ? "Salvar Novo" : "Salvar Alterações"}
-          </button>
-        </div>
+    <Modal
+      appElement={document.getElementById("app")}
+      isOpen={isModalOpen}
+      onRequestClose={fecharModal}
+      contentLabel={isAddMode ? "Adicionar Cliente" : "Alterar Cliente"}
+      className="custom-modal"
+    >
+      <div>
+        <button
+          type="button"
+          className="btn-close"
+          aria-label="Fechar"
+          onClick={fecharModal}
+        />
+        <h2 className="text-center">
+          {isAddMode ? "Novo Cliente" : "Alterar Cliente"}
+        </h2>
+        <form onSubmit={handleAction} autoComplete="off">
+          <div className="form-group">
+            <div className="col-md-6 mb-3">
+              <label>Nome</label>
+              <input
+                type="text"
+                className={`form-control ${errors.nome ? "is-invalid" : ""}`}
+                name="nome"
+                maxLength={100}
+                value={client.nome || ""}
+                onChange={handleInputChange}
+                placeholder="Nome completo"
+                autoComplete="off"
+              />
+              {errors.nome && (
+                <div className="invalid-feedback">{errors.nome}</div>
+              )}
+            </div>
+            <div className="form-group col-md-4 mb-3">
+              <label>CPF ou CNPJ</label>
+              <InputMask
+                type="text"
+                className={`form-control ${
+                  errors.cpf_cnpj ? "is-invalid" : ""
+                }`}
+                value={cpfCnpjMask(client.cpf_cnpj)}
+                onChange={handleCpfCnpjChange}
+                name="cpf_cnpj"
+                placeholder="222.333.444-05"
+                autoComplete="off"
+              />
+              {errors.cpf_cnpj && (
+                <div className="invalid-feedback">{errors.cpf_cnpj}</div>
+              )}
+            </div>
+            <div className="form-group col-md-4 mb-3">
+              <label>Telefone</label>
+              <InputMask
+                type="text"
+                className={`form-control ${
+                  errors.telefone ? "is-invalid" : ""
+                }`}
+                value={client.telefone || ""}
+                mask="(99) 99999-9999"
+                onChange={handleInputChange}
+                name="telefone"
+                placeholder="(11)96576-7416"
+                autoComplete="off"
+              />
+              {errors.telefone && (
+                <div className="invalid-feedback">{errors.telefone}</div>
+              )}
+            </div>
+            <div className="form-group col-md-6 mb-3">
+              <label>Endereço</label>
+              <input
+                type="text"
+                className={`form-control ${
+                  errors.endereco ? "is-invalid" : ""
+                }`}
+                value={client.endereco || ""}
+                name="endereco"
+                maxLength={200}
+                onChange={handleInputChange}
+                placeholder="Rua dos Imigrantes, 15"
+                autoComplete="off"
+              />
+              {errors.endereco && (
+                <div className="invalid-feedback">{errors.endereco}</div>
+              )}
+            </div>
+            <div className="text-center">
+              <button type="submit" className="btn btn-primary">
+                {isAddMode ? "Salvar Novo" : "Salvar Alterações"}
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
-    </form>
-  </div>
-</Modal>
-);
+    </Modal>
+  );
 };
 
 export default ClientModal;

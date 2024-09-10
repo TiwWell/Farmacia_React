@@ -20,9 +20,9 @@ export default function App() {
             <Routes>
                 <Route path="/" element={<Nav />}>
                     <Route index element={<Home />} />
-                    <Route path="medicine" element={<Medicine />} />
-                    <Route path="client" element={<ClientPage />} />
-                    <Route path="pharmaceutical" element={<PharmaceuticalPage />} />                    
+                    <Route path="remedios" element={<Medicine />} />
+                    <Route path="clientes" element={<ClientPage />} />
+                    <Route path="farmaceuticos" element={<PharmaceuticalPage />} />                    
                     <Route path="*" element={<Home />} />
                 </Route>
             </Routes>

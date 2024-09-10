@@ -6,9 +6,13 @@ import cliente from '../components/Home/Cliente.jpg';
 const HomePage = () => {
   return (
     <div className="home-page-container">
+      {/* Alerta informando que o site está em desenvolvimento */}
+      <div className="alert alert-warning" role="alert">
+        Este site é um protótipo em desenvolvimento e se trata de uma versão inicial.
+      </div>
       <HomeComponent
         titulo="Boas-Vindas!"
-        descricao="Estamos felizes em ter você conosco e dedicados a oferecer a melhor experiência em saúde e bem-estar. Navegue pelo nosso site e descubra como podemos ajudar a cuidar da sua saúde com atenção e carinho"
+        descricao="Estamos felizes em ter você conosco e dedicados a oferecer a melhor experiência em saúde e bem-estar. Navegue pelo nosso site e descubra como podemos ajudar a cuidar da sua saúde com atenção e carinho."
         imagemUrl={farmaceutico1}
         imagemAlt="Farmacêutica sorrindo"
       />

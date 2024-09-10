@@ -19,13 +19,13 @@ function Nav() {
                     <Link className="nav-link" to="/home">Pagina Inicial</Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/client">Clientes</Link>
+                    <Link className="nav-link" to="/clientes">Clientes</Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/medicine">Remédios</Link>
+                    <Link className="nav-link" to="/remedios">Remédios</Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/pharmaceutical">Farmacêuticos</Link>
+                    <Link className="nav-link" to="/farmaceuticos">Farmacêuticos</Link>
                   </li>
                 </ul>
                 <ul className="navbar-nav">

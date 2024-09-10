@@ -13,10 +13,10 @@ const Client = () => {
   const AWS_URL = process.env.REACT_APP_AWS_BACKEND_URL;
 
   useEffect(() => {
-    handleSelect();
+    listarClientes();
   }, []);
 
-  const handleSelect = async () => {
+  const listarClientes = async () => {
     try {
       const response = await axios.get(`${AWS_URL}/api/lista-cliente`);
       if (response.data.codRetorno === 200) {
@@ -36,13 +36,13 @@ const Client = () => {
     }
   };
 
-  const handleRevert = async (clientId) => {
+  const inverterStatusCliente = async (clientId) => {
     try {
       await axios.get(
         `${AWS_URL}/api/inverter-status-clientes/${clientId}`
       );
       toast.success("Status do clientes invertido com sucesso");
-      handleSelect(); // Recarrega a lista de clientes após a inversão de status
+      listarClientes(); // Recarrega a lista de clientes após a inversão de status
     } catch (error) {
       console.error("Erro ao inverter status do clientes:", error);
       toast.error(
@@ -185,7 +185,7 @@ const Client = () => {
                     <button
                       type="button"
                       className="btn btn-danger"
-                      onClick={() => handleRevert(client.id)}
+                      onClick={() => inverterStatusCliente(client.id)}
                     >
                       Desativado
                     </button>
@@ -193,7 +193,7 @@ const Client = () => {
                     <button
                       type="button"
                       className="btn btn-success"
-                      onClick={() => handleRevert(client.id)}
+                      onClick={() => inverterStatusCliente(client.id)}
                     >
                       Ativado
                     </button>
