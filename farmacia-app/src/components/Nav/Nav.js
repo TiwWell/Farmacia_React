@@ -49,7 +49,7 @@ function Nav() {
                   </li>
                 </ul>
                 <ul className="navbar-nav">
-                  <p className="nav">📱 Faça seu pedido: (11) 96576-7416</p>
+                  <p className="nav">📱 Faça seu pedido: (11) 99999-9999</p>
                 </ul>
               </div>
             </div>
