@@ -11,6 +11,7 @@ import Medicine from './pages/MedicinePage';
 import Nav from './components/Nav/Nav';
 import Home from './pages/HomePage';
 import PharmaceuticalPage from './pages/PharmaceuticalPage';
+import FormPage from './pages/FormPage';
 
 
 export default function App() {
@@ -23,7 +24,9 @@ export default function App() {
                     <Route path="remedios" element={<Medicine />} />
                     <Route path="clientes" element={<ClientPage />} />
                     <Route path="farmaceuticos" element={<PharmaceuticalPage />} />                    
+                    <Route path="cadastro" element={<FormPage />} />
                     <Route path="*" element={<Home />} />
+
                 </Route>
             </Routes>
         </BrowserRouter>

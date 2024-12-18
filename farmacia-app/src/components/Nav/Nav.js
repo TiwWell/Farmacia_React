@@ -47,6 +47,11 @@ function Nav() {
                       Farmacêuticos
                     </Link>
                   </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/cadastro">
+                      Cadastro
+                    </Link>
+                  </li>
                 </ul>
                 <ul className="navbar-nav">
                   <p className="nav">📱 Faça seu pedido: (11) 99999-9999</p>
