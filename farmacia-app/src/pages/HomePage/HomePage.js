@@ -1,7 +1,7 @@
-import HomeComponent from "../components/Home/HomeComponent";
-import farmaceutico1 from '../components/Home/Farmaceutico 1.JPG';
-import remedios from '../components/Home/Remedios.jpg';
-import cliente from '../components/Home/Cliente.jpg';
+import HomeComponent from "../../components/Home/HomeComponent";
+import cliente from '../../components/Home/Cliente.jpg';
+import farmaceutico1 from '../../components/Home/FarmaceuticoIA.jpg';
+import remedios from '../../components/Home/Remedios.jpg';
 
 const HomePage = () => {
   return (

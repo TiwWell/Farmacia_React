@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { format, parseISO } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 import './FormPage.css';
+import { format } from 'date-fns';
+import React, { useState } from 'react';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const FormPage = () => {
   const [formData, setFormData] = useState({

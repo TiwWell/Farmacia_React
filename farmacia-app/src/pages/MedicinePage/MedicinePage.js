@@ -1,7 +1,6 @@
+import { Toaster } from 'react-hot-toast';
+import Medicine from '../../components/Medicine/Medicine.js';
 import './MedicinePage.css';
-import Navbar from '../components/Nav/Nav.js';
-import Medicine from '../components/Medicine/Medicine.js';
-import { Toaster, toast } from 'react-hot-toast';
 
 function MedicinePage() {
   return (

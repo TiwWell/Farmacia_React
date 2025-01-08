@@ -5,13 +5,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import Modal from 'react-modal'; // Importe o Modal
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Medicine from './pages/MedicinePage';
+import Medicine from './pages/MedicinePage/MedicinePage';
 import Nav from './components/Nav/Nav';
-import Home from './pages/HomePage';
-import PharmaceuticalPage from './pages/PharmaceuticalPage';
-import FormPage from './pages/FormPage';
-import LoginPage from './pages/LoginPage';
-import ClientPage from './pages/ClientPage'; // Certifique-se de importar ClientPage
+import Home from './pages/HomePage/HomePage';
+import PharmaceuticalPage from './pages/PharmaceuticalPage/PharmaceuticalPage';
+import FormPage from './pages/FormPage/FormPage';
+import LoginPage from './pages/LoginPage/LoginPage';
+import ClientPage from './pages/ClientePage/ClientPage'; // Certifique-se de importar ClientPage
 
 export default function App() {
 
